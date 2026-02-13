@@ -1,4 +1,4 @@
-# Sito di recensioni per strutture turistiche  
+# Opinioni Vacanze (Sito Web per recensioni di strutture turistiche) 
 
 **Sviluppatore:** Francesco Stocco
 
