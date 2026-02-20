@@ -41,3 +41,7 @@ Solo agli amministratori del sito saranno disponibili pagine di gestione che per
 
 - **Tabella RECENSIONI**  
 (<u>IdRecensione</u>, IdUtenteFK, NumStelle, Titolo, Commento, CodStrutturaFK)
+
+---
+
+## Database
