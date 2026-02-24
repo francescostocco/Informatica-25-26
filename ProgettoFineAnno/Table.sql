@@ -96,3 +96,6 @@ CREATE TABLE Recensioni(
     Foreign Key (IdUtente) REFERENCES Utenti(IdUtente),
     Foreign Key (CodStruttura) REFERENCES Strutture(CodStruttura)
 )
+
+INSERT INTO Utenti (Nome, Cognome, DataNascita, Email, PasswordUtente)
+VALUES ('Mario', 'Rossi', '2006-05-10', 'mario.rossi@test.it', 'Password123');
