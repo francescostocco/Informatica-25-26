@@ -13,6 +13,8 @@
     z-index: 1000;
 }
 
+html { overflow-y: scroll; }
+
 #logo {
     width: 180px;    
     flex-shrink: 0;

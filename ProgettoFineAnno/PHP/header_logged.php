@@ -1,7 +1,9 @@
 <link rel="stylesheet" href="CSS/header.css">
 
 <header class="header">
-    <img id="logo" src="IMG/cover.jpg" alt="Logo">
+    <a href="index.php">
+        <img id="logo" src="IMG/cover.jpg" alt="Logo">
+    </a>
 
     <div class="user-menu">
         <a class="user-icon" title="Account">
