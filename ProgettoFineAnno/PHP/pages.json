@@ -1,0 +1,8 @@
+{
+  "name": "OpinioniVacanze pages",
+  "dbPages": ["logincheck.php", "registercheck.php", "account.php"],
+  "noHeaderPages": ["logincheck.php", "registercheck.php", "logout.php"],
+  "protectedPages": ["account.php"],
+  "guestHeaderPages": ["index.php", "login.php", "register.php"],
+  "loggedHeaderPages": ["index.php", "account.php"]
+}

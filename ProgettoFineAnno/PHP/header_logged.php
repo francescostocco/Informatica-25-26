@@ -26,7 +26,7 @@
   const dropdown = menu.querySelector('.dropdown');
   if (!icon || !dropdown) return;
 
-  const CLOSE_DELAY_MS = 200; // aumenta/diminuisci (es. 2000 = 2s)
+  const CLOSE_DELAY_MS = 200;
   let closeTimer = null;
 
   function openDropdown() {
@@ -41,20 +41,35 @@
     }, CLOSE_DELAY_MS);
   }
 
-  // Hover su icona o dropdown: apre e non chiude subito
   icon.addEventListener('mouseenter', openDropdown);
   icon.addEventListener('mouseleave', scheduleClose);
 
   dropdown.addEventListener('mouseenter', openDropdown);
   dropdown.addEventListener('mouseleave', scheduleClose);
 
-  // Tastiera: quando l'icona riceve/perde focus
   icon.addEventListener('focus', openDropdown);
   icon.addEventListener('blur', scheduleClose);
 
-  // Chiude se clicchi altrove (opzionale ma comodo)
   document.addEventListener('click', (e) => {
     if (!menu.contains(e.target)) dropdown.style.display = 'none';
   });
 })();
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const logoutLink = document.querySelector('a[href="logout.php"]');
+  if (!logoutLink) return;
+
+  logoutLink.addEventListener("click", function (e) {
+    e.preventDefault();
+
+    document.body.style.transition = "opacity 0.3s ease";
+    document.body.style.opacity = "0";
+
+    setTimeout(() => {
+      window.location.href = this.href;
+    }, 300);
+  });
+});
 </script>

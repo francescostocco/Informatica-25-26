@@ -7,8 +7,8 @@ CREATE TABLE Utenti(
     Nome VARCHAR(20),
     Cognome VARCHAR(20),
     DataNascita DATE,
-    Email VARCHAR(30) NOT NULL,
-    PasswordUtente VARCHAR(15) NOT NULL,
+    Email VARCHAR(30) NOT NULL UNIQUE,
+    PasswordUtente VARCHAR(255) NOT NULL,
     PRIMARY KEY(IdUtente)
 )
 
@@ -24,8 +24,8 @@ CREATE TABLE Proprietari(
     IdUtente INT(4) NOT NULL,
     NomeAttività VARCHAR(30),
     SedeLegale VARCHAR(30),
-    PartitaIVA INT(11) NOT NULL,
-    Telefono INT(10),
+    PartitaIVA CHAR(11) NOT NULL,
+    Telefono VARCHAR(20),
     IdProprietario INT(3) AUTO_INCREMENT,
     PRIMARY KEY(IdProprietario),
     Foreign Key (IdUtente) REFERENCES Utenti(IdUtente)
@@ -54,6 +54,7 @@ CREATE TABLE FotoStrutture(
     IdFoto INT(3) AUTO_INCREMENT,
     UrlFoto VARCHAR(1000), 
     CodStruttura INT(6) NOT NULL,
+    PRIMARY KEY(IdFoto),
     Foreign Key (CodStruttura) REFERENCES Strutture(CodStruttura)
 )
 
@@ -62,11 +63,11 @@ CREATE TABLE Alberghi(
     Catena VARCHAR(30),
     NumeroCamere INT(3),
     NumeroStelle INT(1),
-    PRIMARY KEY(COdStruttura),
+    PRIMARY KEY(CodStruttura),
     Foreign Key (CodStruttura) REFERENCES Strutture(CodStruttura)
 )
 
-CREATE TABLE B&B(
+CREATE TABLE BnB(
     CodStruttura INT(6) NOT NULL,
     Categoria BOOLEAN,
     NumeroCamere INT(3),
@@ -89,12 +90,19 @@ CREATE TABLE Recensioni(
     IdRecensione INT(5) AUTO_INCREMENT,
     IdUtente INT(4) NOT NULL,
     NumStelle INT(1) NOT NULL,
-    Titolo VARCHAR(20),
+    Titolo VARCHAR(50),
     Commento VARCHAR(300),
     CodStruttura INT(6) NOT NULL,
     PRIMARY KEY(IdRecensione),
     Foreign Key (IdUtente) REFERENCES Utenti(IdUtente),
     Foreign Key (CodStruttura) REFERENCES Strutture(CodStruttura)
+)
+
+CREATE TABLE Visite(
+  IdVisita INT AUTO_INCREMENT PRIMARY KEY,
+  CodStruttura INT NOT NULL,
+  DataOra DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (CodStruttura) REFERENCES Strutture(CodStruttura)
 )
 
 INSERT INTO Utenti (Nome, Cognome, DataNascita, Email, PasswordUtente)
