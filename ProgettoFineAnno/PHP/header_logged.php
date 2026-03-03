@@ -2,7 +2,7 @@
 
 <header class="header">
     <a href="index.php">
-        <img id="logo" src="IMG/cover.jpg" alt="Logo">
+        <img id="logo" src="IMG/cover.png" alt="Logo">
     </a>
 
     <div class="user-menu">

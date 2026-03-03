@@ -7,7 +7,7 @@ if (session_status() === PHP_SESSION_NONE) {
 <link rel="stylesheet" href="CSS/header.css">
 <header class="header">
     <a href="index.php">
-        <img id="logo" src="IMG/cover.jpg" alt="Logo">
+        <img id="logo" src="IMG/cover.png" alt="Logo">
     </a>
     <div class="header-buttons">
         <a class="btn login" href="login.php">Login</a>

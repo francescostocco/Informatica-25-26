@@ -10,7 +10,7 @@ $obj = json_decode($json);
 // Nome della pagina in cui si trova l'utente
 $pageName = basename($_SERVER['PHP_SELF']);
 
-/* 1) Se la pagina è "azione", non stampare nulla */
+/*Se la pagina è un'azione php, non stampare nulla */
 if (in_array($pageName, $obj->noHeaderPages ?? [])) {
     return;
 }
@@ -21,12 +21,12 @@ if (in_array($pageName, $obj->protectedPages ?? []) && empty($_SESSION['loggato'
     exit;
 }
 
-/*Se serve DB, includi connessione (se ti serve davvero in quella pagina) */
+/*Se serve DB, includi connessione */
 if (in_array($pageName, $obj->dbPages ?? [])) {
     require_once __DIR__ . '/connect.php';
 }
 
-/*Header: mette header in base alla pagina in cui si trova l'utente */
+/*Header: mette header in base alla pagina in cui si trova l'utente e in base al login */
 if (!empty($_SESSION['loggato'])) {
     require __DIR__ . '/header_logged.php';
 } else {

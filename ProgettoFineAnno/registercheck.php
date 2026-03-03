@@ -14,8 +14,9 @@ $dataNascita = $_POST['dataNascita'] ?? '';
 $email = trim($_POST['email'] ?? '');
 $password = $_POST['password'] ?? '';
 
-if($nome === '' || $cognome === '' || $dataNascita === '' || $email === '' || $password){
+if($nome === '' || $cognome === '' || $dataNascita === '' || $email === '' || $password === ''){
     header("Location: register.php?err=1");
+    exit;
 }
 
 $check = $conn->prepare("SELECT IdUtente FROM Utenti WHERE Email = :email LIMIT 1");
@@ -35,7 +36,7 @@ $stmt->bindParam(':nome', $nome);
 $stmt->bindParam(':cognome', $cognome);
 $stmt->bindParam(':dataNascita', $dataNascita);
 $stmt->bindParam(':email', $email);
-$stmt->bindParam(':password', $paswword);
+$stmt->bindParam(':password', $password);
 
 $stmt->execute();
 
