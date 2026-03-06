@@ -107,3 +107,7 @@ CREATE TABLE Visite(
 
 INSERT INTO Utenti (Nome, Cognome, DataNascita, Email, PasswordUtente)
 VALUES ('Mario', 'Rossi', '2006-05-10', 'mario.rossi@test.it', 'Password123');
+
+ALTER TABLE Utenti MODIFY DataNascita DATE NULL;
+ALTER TABLE Utenti MODIFY Nome VARCHAR(20) NULL;
+ALTER TABLE Utenti MODIFY Cognome VARCHAR(20) NULL;

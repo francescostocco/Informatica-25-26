@@ -1,35 +1,51 @@
 <?php
-
 ob_start();
 
-if(session_status() == PHP_SESSION_NONE){
+if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-require 'PHP/connect.php';
+require __DIR__ . '/PHP/connect.php';
 
-$nome = trim($_POST['nome'] ?? '');
-$cognome = trim($_POST['cognome'] ?? '');
-$dataNascita = $_POST['dataNascita'] ?? '';
 $email = trim($_POST['email'] ?? '');
 $password = $_POST['password'] ?? '';
+$confirmPassword = $_POST['confirm_password'] ?? '';
 
-if($nome === '' || $cognome === '' || $dataNascita === '' || $email === '' || $password === ''){
-    header("Location: register.php?err=1");
+// Controllo campi vuoti
+if ($email === '' || $password === '' || $confirmPassword === '') {
+    header("Location: login.php?err=1");
     exit;
 }
 
+// Controllo email valida
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    header("Location: login.php?err=2");
+    exit;
+}
+
+// Controllo password uguali
+if ($password !== $confirmPassword) {
+    header("Location: login.php?err=3");
+    exit;
+}
+
+// Controllo se email già esistente
 $check = $conn->prepare("SELECT IdUtente FROM Utenti WHERE Email = :email LIMIT 1");
 $check->bindParam(':email', $email);
 $check->execute();
 
-if($check->fetch()){
-    header("Location: register.php?err=2");
+if ($check->fetch()) {
+    header("Location: login.php?err=4");
     exit;
 }
 
-$sql = 'INSERT INTO Utenti(Nome, Cognome, DataNascita, Email, PasswordUtente)
-        VALUES (:nome, :cognome, :dataNascita, :email, :password)';
+// Inserimento utente con dati mancanti vuoti
+$sql = "INSERT INTO Utenti (Nome, Cognome, DataNascita, Email, PasswordUtente)
+        VALUES (:nome, :cognome, :dataNascita, :email, :password)";
+
+$nome = '';
+$cognome = '';
+$dataNascita = null;
 
 $stmt = $conn->prepare($sql);
 $stmt->bindParam(':nome', $nome);
@@ -40,12 +56,12 @@ $stmt->bindParam(':password', $password);
 
 $stmt->execute();
 
+// Login automatico
 $_SESSION['IdUtente'] = $conn->lastInsertId();
 $_SESSION['Nome'] = $nome;
 $_SESSION['Cognome'] = $cognome;
 $_SESSION['loggato'] = true;
 
-header("Location: index.php");
+header("Location: account.php");
 exit;
-
 ?>
