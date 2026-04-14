@@ -10,6 +10,6 @@ if (session_status() === PHP_SESSION_NONE) {
         <img id="logo" src="IMG/cover.png" alt="Logo">
     </a>
     <div class="header-buttons">
-        <a href="login.php" class="btn register">Login / Registrati</a>
+        <a href="login.php" class="btn register">Inizia ora!</a>
     </div>
 </header>

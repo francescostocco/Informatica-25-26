@@ -1,8 +1,40 @@
 {
   "name": "OpinioniVacanze pages",
-  "dbPages": ["logincheck.php", "registercheck.php", "account.php"],
-  "noHeaderPages": ["logincheck.php", "registercheck.php", "logout.php"],
-  "protectedPages": ["account.php"],
-  "guestHeaderPages": ["index.php", "login.php", "register.php"],
-  "loggedHeaderPages": ["index.php", "account.php"]
+
+  "dbPages": [
+    "logincheck.php",
+    "registercheck.php",
+    "account.php",
+    "ownerlogincheck.php",
+    "ownerregistercheck.php",
+    "owneraccount.php",
+    "addstrutturacheck.php"
+  ],
+
+  "noHeaderPages": [
+    "logincheck.php",
+    "registercheck.php",
+    "logout.php",
+    "ownerlogincheck.php",
+    "ownerregistercheck.php",
+    "addstrutturacheck.php"
+  ],
+
+  "protectedPages": [
+    "account.php",
+    "owneraccount.php",
+    "addstruttura.php"
+  ],
+
+  "guestHeaderPages": [
+    "index.php",
+    "login.php"
+  ],
+
+  "loggedHeaderPages": [
+    "index.php",
+    "account.php",
+    "owneraccount.php",
+    "addstruttura.php"
+  ]
 }

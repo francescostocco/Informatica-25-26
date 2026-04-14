@@ -1,6 +1,6 @@
 :root{
   --primary:#2596be;
-  --primary-dark:#1f7fa3;
+  --primary-dark:#0f172a;
   --text:#0f172a;
   --muted:#64748b;
   --bg:#f8fafc;
@@ -277,4 +277,22 @@ body{
 .overlay-track,
 .overlay-content {
   will-change: transform, opacity;
+}
+
+.owner-entry{
+  margin-top: 14px;
+  text-align: center;
+  font-size: 0.92rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.owner-entry a{
+  color: var(--primary);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.owner-entry a:hover{
+  text-decoration: underline;
 }

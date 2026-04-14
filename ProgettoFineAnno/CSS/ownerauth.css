@@ -1,0 +1,311 @@
+:root{
+  --primary:#2596be;
+  --primary-dark:#202c49;
+  --panel:#0f172a;
+  --text:#0f172a;
+  --muted:#64748b;
+  --bg:#eef4f7;
+  --border:#dbe3ea;
+  --white:#ffffff;
+}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+html{
+  scrollbar-gutter: stable;
+  overflow-y: scroll;
+}
+
+body{
+  font-family:'Lexend', sans-serif;
+  background:
+    linear-gradient(135deg, rgba(37,150,190,0.08), rgba(15,23,42,0.04)),
+    var(--bg);
+  min-height:100vh;
+  padding:140px 20px 40px;
+}
+
+.owner-page{
+  width:100%;
+  display:flex;
+  justify-content:center;
+}
+
+.owner-container{
+  position:relative;
+  width:100%;
+  max-width:1000px;
+  min-height:680px;
+  background:var(--white);
+  border-radius:28px;
+  overflow:hidden;
+  border:1px solid rgba(15,23,42,0.06);
+  box-shadow:0 35px 80px rgba(15,23,42,0.10);
+}
+
+/* PANNELLI FORM */
+.owner-form-panel{
+  position:absolute;
+  top:0;
+  width:50%;
+  height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding-top:48px;
+  transition:
+    transform 0.75s cubic-bezier(.22,1,.36,1),
+    opacity 0.45s ease,
+    visibility 0.45s ease;
+  z-index:2;
+}
+
+.owner-login-panel{
+  left:0;
+  opacity:1;
+  visibility:visible;
+  z-index:2;
+}
+
+.owner-register-panel{
+  left:0;
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+  z-index:1;
+}
+
+.owner-form{
+  width:100%;
+  max-width:400px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  padding:0 28px;
+}
+
+.owner-form h2{
+  font-size:1.75rem;
+  line-height:1.15;
+  color:var(--text);
+  letter-spacing:-0.03em;
+}
+
+.owner-subtitle{
+  color:var(--muted);
+  font-size:0.96rem;
+  line-height:1.5;
+  margin-bottom:10px;
+}
+
+.owner-form input{
+  width:100%;
+  padding:12px 14px;
+  border-radius:12px;
+  border:1px solid var(--border);
+  background:#f8fafc;
+  font-size:0.96rem;
+  font-family:'Lexend', sans-serif;
+  transition:border-color .2s ease, box-shadow .2s ease, background .2s ease;
+}
+
+.owner-form input:focus{
+  outline:none;
+  border-color:rgba(37,150,190,0.55);
+  box-shadow:0 0 0 4px rgba(37,150,190,0.12);
+  background:#fff;
+}
+
+.owner-form button{
+  margin-top:8px;
+  padding:12px 16px;
+  border:none;
+  border-radius:999px;
+  background:var(--panel);
+  color:#fff;
+  font-size:0.96rem;
+  font-weight:700;
+  font-family:'Lexend', sans-serif;
+  cursor:pointer;
+  transition:transform .18s ease, box-shadow .18s ease, opacity .18s ease;
+  box-shadow:0 16px 32px rgba(15,23,42,0.20);
+}
+
+.owner-form button:hover{
+  transform:translateY(-2px);
+  box-shadow:0 20px 36px rgba(15,23,42,0.24);
+}
+
+/* OVERLAY */
+.owner-overlay-shell{
+  position:absolute;
+  top:0;
+  left:50%;
+  width:50%;
+  height:100%;
+  overflow:hidden;
+  z-index:10;
+  transition:transform 0.75s cubic-bezier(.22,1,.36,1);
+}
+
+.owner-overlay-track{
+  position:relative;
+  left:-100%;
+  width:200%;
+  height:100%;
+  background:linear-gradient(135deg, #0f172a, #1b2d44, #2596be);
+  transform:translateX(0);
+  transition:transform 0.75s cubic-bezier(.22,1,.36,1);
+}
+
+.owner-overlay-content{
+  position:absolute;
+  top:0;
+  width:50%;
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  color:#fff;
+  padding:0 56px;
+  transition:transform 0.75s cubic-bezier(.22,1,.36,1);
+}
+
+.owner-overlay-content h2{
+  font-size:2.2rem;
+  margin-bottom:12px;
+  letter-spacing:-0.03em;
+}
+
+.owner-overlay-content p{
+  font-size:1rem;
+  line-height:1.6;
+  max-width:320px;
+  margin-bottom:26px;
+  opacity:.94;
+}
+
+.owner-overlay-left{
+  left:0;
+  transform:translateX(-18%);
+}
+
+.owner-overlay-right{
+  right:0;
+  transform:translateX(0);
+}
+
+.owner-switch-btn.ghost{
+  padding:12px 28px;
+  border-radius:999px;
+  border:2px solid rgba(255,255,255,0.9);
+  background:transparent;
+  color:#fff;
+  font-size:0.95rem;
+  font-weight:700;
+  font-family:'Lexend', sans-serif;
+  cursor:pointer;
+  transition:background .2s ease, transform .2s ease;
+}
+
+.owner-switch-btn.ghost:hover{
+  background:rgba(255,255,255,0.12);
+  transform:translateY(-1px);
+}
+
+.back-user-link{
+  margin-top:8px;
+  text-align:center;
+  color:var(--muted);
+  font-size:0.92rem;
+}
+
+.back-user-link a{
+  color:var(--primary);
+  font-weight:700;
+  text-decoration:none;
+}
+
+.back-user-link a:hover{
+  text-decoration:underline;
+}
+
+/* STATO REGISTRAZIONE */
+.owner-container.register-mode .owner-login-panel{
+  transform:translateX(100%);
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+  z-index:1;
+}
+
+.owner-container.register-mode .owner-register-panel{
+  transform:translateX(100%);
+  opacity:1;
+  visibility:visible;
+  pointer-events:auto;
+  z-index:5;
+}
+
+.owner-container.register-mode .owner-overlay-shell{
+  transform:translateX(-100%);
+}
+
+.owner-container.register-mode .owner-overlay-track{
+  transform:translateX(50%);
+}
+
+.owner-container.register-mode .owner-overlay-left{
+  transform:translateX(0);
+}
+
+.owner-container.register-mode .owner-overlay-right{
+  transform:translateX(18%);
+}
+
+@media (max-width: 900px){
+  .owner-container{
+    min-height:680px;
+  }
+}
+
+@media (max-width: 760px){
+  .owner-overlay-shell{
+    display:none;
+  }
+
+  .owner-form-panel,
+  .owner-login-panel,
+  .owner-register-panel{
+    position:relative;
+    width:100%;
+    height:auto;
+    left:auto;
+    transform:none !important;
+    opacity:1 !important;
+    visibility:visible !important;
+  }
+
+  .owner-register-panel{
+    display:none;
+  }
+
+  .owner-container.register-mode .owner-login-panel{
+    display:none;
+  }
+
+  .owner-container.register-mode .owner-register-panel{
+    display:flex;
+  }
+
+  .owner-form{
+    max-width:none;
+    padding:40px 24px;
+  }
+}

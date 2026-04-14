@@ -1,11 +1,16 @@
 :root{
   --primary:#2596be;
+  --primary-dark:#0f172a;
   --text:#111827;
   --muted:#6b7280;
   --border:rgba(17,24,39,.10);
   --glass:rgba(255,255,255,.78);
   --shadow:0 10px 30px rgba(17,24,39,.08);
   --shadow2:0 6px 18px rgba(17,24,39,.06);
+}
+
+body.owner-theme{
+  --primary:#0f172a;
 }
 
 *{ box-sizing:border-box; margin:0; padding:0; }
@@ -39,6 +44,7 @@ html{ scrollbar-gutter: stable; overflow-y: scroll; }
   width: 175px;
   display:block;
   transition: transform .2s ease;
+  margin-left: -45px;
 }
 #logo:hover{ transform: scale(1.02); }
 

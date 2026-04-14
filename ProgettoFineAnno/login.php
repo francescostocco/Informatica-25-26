@@ -36,6 +36,10 @@
                 <input type="password" name="password" placeholder="Password" required>
 
                 <button type="submit">Login</button>
+
+                <p class="owner-entry">
+                    Sei un proprietario? <a href="ownerlogin.php">Accedi o registrati qui</a>
+                </p>
             </form>
         </div>
 

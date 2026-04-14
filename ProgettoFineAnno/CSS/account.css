@@ -1,9 +1,14 @@
 :root{
   --primary:#2596be;
+  --primary-dark:#202c49;
   --text:#0f172a;
   --muted:#64748b;
   --bg:#f8fafc;
   --border:#e2e8f0;
+}
+
+body.owner-theme{
+  --primary:#202c49;
 }
 
 *{
