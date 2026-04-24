@@ -17,7 +17,7 @@ if (
 require __DIR__ . '/PHP/connect.php';
 
 /* =========================
-   DATI FORM PRINCIPALI
+   Dati Form Principali
 ========================= */
 $nomeStruttura = trim($_POST['nomeStruttura'] ?? '');
 $descrizione = trim($_POST['descrizione'] ?? '');
@@ -29,7 +29,7 @@ $tipologia = trim($_POST['tipologia'] ?? '');
 $idUtente = $_SESSION['IdUtente'];
 
 /* =========================
-   CONTROLLI BASE
+   Controllo che non sia vuoto l'inserimento dell'utente
 ========================= */
 if (
     $nomeStruttura === '' ||
@@ -47,7 +47,7 @@ try {
     $conn->beginTransaction();
 
     /* =========================
-       1. RECUPERO ID PROPRIETARIO
+       1. Recupero IdProprietario 
     ========================= */
     $sqlProp = "SELECT IdProprietario
                 FROM Proprietari
@@ -69,8 +69,7 @@ try {
     $idProprietario = $proprietario['IdProprietario'];
 
     /* =========================
-       2. GESTIONE TIPOLOCALITA
-       (se non esiste la creo)
+       2. Gestione del parametro TipoLocalità, se non esiste viene creata
     ========================= */
     $sqlTipo = "SELECT `IdTipoLocalità`
                 FROM `TipoLocalità`
@@ -96,7 +95,7 @@ try {
     }
 
     /* =========================
-       3. INSERIMENTO STRUTTURA
+       3. Inserimento struttura
     ========================= */
     $sqlStruttura = "INSERT INTO Strutture
                     (NomeStruttura, Descrizione, Indirizzo, `Città`, `IdTipoLocalità`, IdProprietario)
@@ -115,7 +114,7 @@ try {
     $codStruttura = $conn->lastInsertId();
 
     /* =========================
-       4. INSERIMENTO TABELLA SPECIFICA
+       4. Inserimento della struttura nella tabella specifica (Alberghi, BnB, CaseVacanze)
     ========================= */
     if ($tipologia === 'albergo') {
         $catena = trim($_POST['catena'] ?? '');
@@ -180,7 +179,7 @@ try {
     }
 
     /* =========================
-       5. GESTIONE FOTO
+       5. Gestione caricamento foto
     ========================= */
     if (!empty($_FILES['foto']['name'][0])) {
         $uploadDir = __DIR__ . '/uploads/strutture/';

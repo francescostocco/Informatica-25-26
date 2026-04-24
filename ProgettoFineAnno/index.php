@@ -1,3 +1,32 @@
+<?php
+require __DIR__ . '/PHP/connect.php';
+
+$sql = "SELECT 
+        S.CodStruttura,
+        S.NomeStruttura,
+        S.`Città`,
+        F.UrlFoto,
+        CASE
+            WHEN A.CodStruttura IS NOT NULL THEN 'Albergo'
+            WHEN B.CodStruttura IS NOT NULL THEN 'B&B'
+            WHEN C.CodStruttura IS NOT NULL THEN 'Casa vacanze'
+            ELSE 'Struttura'
+        END AS Tipologia
+        FROM Strutture S
+        LEFT JOIN FotoStrutture F ON S.CodStruttura = F.CodStruttura
+        LEFT JOIN Alberghi A ON S.CodStruttura = A.CodStruttura
+        LEFT JOIN BnB B ON S.CodStruttura = B.CodStruttura
+        LEFT JOIN CaseVacanze C ON S.CodStruttura = C.CodStruttura
+        GROUP BY S.CodStruttura
+        ORDER BY S.CodStruttura DESC";
+
+$stmt = $conn->prepare($sql);
+$stmt->execute();
+
+$strutture = $stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
+
+
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -11,11 +40,47 @@
 </head>
 <body>
     <main class="main-content">
-        <h1>Opinioni Vacanze</h1>
-        <div class="search-bar">
-            <input type="text" placeholder="Cerca strutture...">
-            <button><i class="fas fa-magnifying-glass"></i></button>
+    <h1>Opinioni Vacanze</h1>
+
+    <div class="search-bar">
+        <input type="text" placeholder="Cerca strutture...">
+        <button><i class="fas fa-magnifying-glass"></i></button>
+    </div>
+
+    <!-- Sezione per vedere tutte le strutture -->
+    <div class="home-structures">
+
+        <h2>Strutture disponibili</h2>
+
+        <div class="structures-grid">
+
+            <?php foreach ($strutture as $struttura): ?>
+                
+                <a href="struttura.php?id=<?php echo $struttura['CodStruttura']; ?>" class="structure-card">
+
+                    <div class="structure-image">
+                        <?php if (!empty($struttura['UrlFoto'])): ?>
+                            <img src="<?php echo htmlspecialchars($struttura['UrlFoto']); ?>">
+                        <?php else: ?>
+                            <div class="structure-placeholder">
+                                <i class="fa-regular fa-image"></i>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+
+                    <div class="structure-body">
+                        <span class="structure-type"><?php echo htmlspecialchars($struttura['Tipologia']); ?></span>
+                        <h3><?php echo htmlspecialchars($struttura['NomeStruttura']); ?></h3>
+                        <p><?php echo htmlspecialchars($struttura['Città']); ?></p>
+                    </div>
+
+                </a>
+
+            <?php endforeach; ?>
+
+            </div>
         </div>
+
     </main>
 </body>
 </html> 

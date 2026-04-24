@@ -18,10 +18,7 @@ $idUtente = $_SESSION['IdUtente'];
 
 /* DATI PROPRIETARIO */
 $sql = "SELECT U.Email, P.IdProprietario, P.`NomeAttività`, P.SedeLegale, P.PartitaIVA, P.Telefono
-        FROM Utenti U
-        INNER JOIN Proprietari P ON U.IdUtente = P.IdUtente
-        WHERE U.IdUtente = :idUtente
-        LIMIT 1";
+        FROM Utenti U INNER JOIN Proprietari P ON U.IdUtente = P.IdUtente WHERE U.IdUtente = :idUtente LIMIT 1";
 
 $stmt = $conn->prepare($sql);
 $stmt->bindParam(':idUtente', $idUtente);
@@ -37,29 +34,19 @@ if (!$proprietario) {
 $idProprietario = $proprietario['IdProprietario'];
 
 /* STRUTTURE DEL PROPRIETARIO + PRIMA FOTO */
-$sqlStrutture = "SELECT 
-                    S.CodStruttura,
-                    S.NomeStruttura,
-                    S.`Città`,
-                    F.UrlFoto,
-                    CASE
-                        WHEN A.CodStruttura IS NOT NULL THEN 'Albergo'
-                        WHEN B.CodStruttura IS NOT NULL THEN 'B&B'
-                        WHEN C.CodStruttura IS NOT NULL THEN 'Casa vacanze'
-                        ELSE 'Struttura'
-                    END AS Tipologia
-                 FROM Strutture S
-                 LEFT JOIN (
-                    SELECT CodStruttura, MIN(IdFoto) AS PrimaFoto
-                    FROM FotoStrutture
-                    GROUP BY CodStruttura
-                 ) FP ON S.CodStruttura = FP.CodStruttura
-                 LEFT JOIN FotoStrutture F ON FP.PrimaFoto = F.IdFoto
-                 LEFT JOIN Alberghi A ON S.CodStruttura = A.CodStruttura
-                 LEFT JOIN BnB B ON S.CodStruttura = B.CodStruttura
-                 LEFT JOIN CaseVacanze C ON S.CodStruttura = C.CodStruttura
-                 WHERE S.IdProprietario = :idProprietario
-                 ORDER BY S.CodStruttura DESC";
+$sqlStrutture = "SELECT S.CodStruttura, S.NomeStruttura, S.`Città`, F.UrlFoto,
+                CASE
+                    WHEN A.CodStruttura IS NOT NULL THEN 'Albergo'
+                    WHEN B.CodStruttura IS NOT NULL THEN 'B&B'
+                    WHEN C.CodStruttura IS NOT NULL THEN 'Casa vacanze'
+                ELSE 'Struttura'
+                END AS Tipologia
+                FROM Strutture S
+                    LEFT JOIN FotoStrutture F ON S.CodStruttura = F.CodStruttura
+                    LEFT JOIN Alberghi A ON S.CodStruttura = A.CodStruttura
+                    LEFT JOIN BnB B ON S.CodStruttura = B.CodStruttura
+                    LEFT JOIN CaseVacanze C ON S.CodStruttura = C.CodStruttura
+                    WHERE S.IdProprietario = :idProprietario GROUP BY S.CodStruttura ORDER BY S.CodStruttura DESC";
 
 $stmtStrutture = $conn->prepare($sqlStrutture);
 $stmtStrutture->bindParam(':idProprietario', $idProprietario);
@@ -137,7 +124,8 @@ $strutture = $stmtStrutture->fetchAll(PDO::FETCH_ASSOC);
         <?php if (count($strutture) > 0): ?>
             <div class="structures-grid">
                 <?php foreach ($strutture as $struttura): ?>
-                    <div class="structure-card">
+                    <a href="struttura.php?id=<?php echo $struttura['CodStruttura']; ?>" class="structure-card">
+
                         <div class="structure-image">
                             <?php if (!empty($struttura['UrlFoto'])): ?>
                                 <img src="<?php echo htmlspecialchars($struttura['UrlFoto']); ?>" alt="Foto struttura">
@@ -148,13 +136,14 @@ $strutture = $stmtStrutture->fetchAll(PDO::FETCH_ASSOC);
                             <?php endif; ?>
                         </div>
 
-                        <div class="structure-body">
-                            <span class="structure-type"><?php echo htmlspecialchars($struttura['Tipologia']); ?></span>
-                            <h3><?php echo htmlspecialchars($struttura['NomeStruttura']); ?></h3>
-                            <p><?php echo htmlspecialchars($struttura['Città']); ?></p>
-                        </div>
-                    </div>
-                <?php endforeach; ?>
+            <div class="structure-body">
+                <span class="structure-type"><?php echo htmlspecialchars($struttura['Tipologia']); ?></span>
+                <h3><?php echo htmlspecialchars($struttura['NomeStruttura']); ?></h3>
+                <p><?php echo htmlspecialchars($struttura['Città']); ?></p>
+            </div>
+
+            </a>
+            <?php endforeach; ?>
             </div>
         <?php else: ?>
             <div class="empty-structures">

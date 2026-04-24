@@ -182,6 +182,8 @@ body{
   overflow:hidden;
   box-shadow:var(--shadow);
   transition:transform .18s ease, box-shadow .18s ease;
+  text-decoration: none;
+  color: inherit;
 }
 
 .structure-card:hover{

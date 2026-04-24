@@ -12,7 +12,7 @@
 <div class="auth-page">
     <div class="auth-container" id="authContainer">
 
-        <!-- FORM REGISTRAZIONE -->
+        <!-- Form per la registrazione dell'utente, invia dati a registercheck.php -->
         <div class="form-panel register-panel">
             <form action="registercheck.php" method="POST" class="auth-form" id="registerForm">
                 <h2>Crea account</h2>
@@ -26,7 +26,7 @@
             </form>
         </div>
 
-        <!-- FORM LOGIN -->
+        <!-- Form per il login dell'utente, invia dati a logincheck.php -->
         <div class="form-panel login-panel">
             <form action="logincheck.php" method="POST" class="auth-form">
                 <h2>Accedi</h2>
@@ -43,7 +43,7 @@
             </form>
         </div>
 
-        <!-- PANNELLO ANIMATO -->
+        <!-- Pannello con animazione passaggio tra login e registrazione  -->
         <div class="overlay-shell">
             <div class="overlay-track">
 
@@ -65,13 +65,14 @@
     </div>
 </div>
 
+<!-- Script per animare il pannello login e registrazione, per la transizione animata -->
 <script>
 const authContainer = document.getElementById("authContainer");
 const showRegister = document.getElementById("showRegister");
 const showLogin = document.getElementById("showLogin");
 
 let isAnimating = false;
-const ANIMATION_TIME = 750; // deve essere uguale o simile al tempo del CSS
+const ANIMATION_TIME = 750; // durata animazione
 
 function switchMode(toRegister) {
     if (isAnimating) return;
@@ -99,7 +100,7 @@ showRegister.addEventListener("click", () => switchMode(true));
 showLogin.addEventListener("click", () => switchMode(false));
 </script>
 
-<!-- SCRIPT per controllo inserimento password uguale al campo sopra -->
+<!-- Script che controlla che le due password coincidano, se non coincidono mostra alert con scritto che non corrispondono -->
 <script>
 const registerForm = document.getElementById("registerForm");
 const registerPassword = document.getElementById("registerPassword");
