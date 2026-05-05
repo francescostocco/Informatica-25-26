@@ -1,27 +1,21 @@
-<link rel="stylesheet" href="CSS/header.css">
-<body class="<?php echo (!empty($_SESSION['ruolo']) && $_SESSION['ruolo'] === 'proprietario') ? 'owner-theme' : ''; ?>">
-  <header class="header">
-    <a href="index.php">
-        <img id="logo" src="IMG/coverscuro.png" alt="Logo">
+<link rel="stylesheet" href="/ProgettoFineAnno/CSS/header.css">
+
+<header class="header">
+    <a href="/ProgettoFineAnno/index.php">
+        <img id="logo" src="/ProgettoFineAnno/IMG/cover.png" alt="Logo">
     </a>
 
-    <div class="header-buttons">
-        <a href="addstruttura.php" class="btn register">Aggiungi struttura</a>
+    <div class="user-menu">
+        <a class="user-icon" title="Account">
+            <i class="fa-solid fa-user"></i>
+        </a>
 
-        <div class="user-menu">
-            <a class="user-icon" title="Account">
-                <i class="fa-solid fa-user"></i>
-            </a>
-
-            <div class="dropdown">
-                <a href="owneraccount.php">Area proprietario</a>
-                <a href="logout.php" class="danger">Logout</a>
-            </div>
+        <div class="dropdown">
+            <a href="/ProgettoFineAnno/userpages/account.php">Area personale</a>
+            <a href="/ProgettoFineAnno/actions/logout.php" class="danger">Logout</a>
         </div>
     </div>
 </header>
-</body>
-
 
 <script>
 (function () {

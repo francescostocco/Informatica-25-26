@@ -14,7 +14,7 @@
 
         <!-- Form per la registrazione dell'utente, invia dati a registercheck.php -->
         <div class="form-panel register-panel">
-            <form action="registercheck.php" method="POST" class="auth-form" id="registerForm">
+            <form action="actions/registercheck.php" method="POST" class="auth-form" id="registerForm">
                 <h2>Crea account</h2>
                 <p class="subtitle">Registrati per iniziare a recensire strutture turistiche.</p>
 
@@ -28,7 +28,7 @@
 
         <!-- Form per il login dell'utente, invia dati a logincheck.php -->
         <div class="form-panel login-panel">
-            <form action="logincheck.php" method="POST" class="auth-form">
+            <form action="actions/logincheck.php" method="POST" class="auth-form">
                 <h2>Accedi</h2>
                 <p class="subtitle">Bentornato, accedi per continuare.</p>
 
@@ -38,7 +38,7 @@
                 <button type="submit">Login</button>
 
                 <p class="owner-entry">
-                    Sei un proprietario? <a href="ownerlogin.php">Accedi o registrati qui</a>
+                    Sei un proprietario? <a href="ownerpages/ownerlogin.php">Accedi o registrati qui</a>
                 </p>
             </form>
         </div>

@@ -1,18 +1,22 @@
-<link rel="stylesheet" href="CSS/header.css">
+<link rel="stylesheet" href="/ProgettoFineAnno/CSS/header.css">
 
 <header class="header">
-    <a href="index.php">
-        <img id="logo" src="IMG/cover.png" alt="Logo">
+    <a href="/ProgettoFineAnno/index.php">
+        <img id="logo" src="/ProgettoFineAnno/IMG/coverscuro.png" alt="Logo">
     </a>
 
-    <div class="user-menu">
-        <a class="user-icon" title="Account">
-            <i class="fa-solid fa-user"></i>
-        </a>
+    <div class="header-buttons">
+        <a href="/ProgettoFineAnno/ownerpages/addstruttura.php" class="btn register">Aggiungi struttura</a>
 
-        <div class="dropdown">
-            <a href="account.php">Area personale</a>
-            <a href="logout.php" class="danger">Logout</a>
+        <div class="user-menu">
+            <a class="user-icon" title="Account">
+                <i class="fa-solid fa-user"></i>
+            </a>
+
+            <div class="dropdown">
+                <a href="/ProgettoFineAnno/ownerpages/owneraccount.php">Area proprietario</a>
+                <a href="/ProgettoFineAnno/actions/logout.php" class="danger">Logout</a>
+            </div>
         </div>
     </div>
 </header>
@@ -58,7 +62,7 @@
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-  const logoutLink = document.querySelector('a[href="logout.php"]');
+  const logoutLink = document.querySelector('a[href*="logout.php"]');
   if (!logoutLink) return;
 
   logoutLink.addEventListener("click", function (e) {

@@ -8,11 +8,11 @@ if (
     empty($_SESSION['ruolo']) ||
     $_SESSION['ruolo'] !== 'proprietario'
 ) {
-    header("Location: login.php");
+    header("Location: ../login.php");
     exit;
 }
 
-require __DIR__ . '/PHP/connect.php';
+require __DIR__ . '/../include/connect.php';
 
 $idUtente = $_SESSION['IdUtente'];
 
@@ -27,7 +27,7 @@ $stmt->execute();
 $proprietario = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$proprietario) {
-    header("Location: login.php");
+    header("Location: ../login.php");
     exit;
 }
 
@@ -63,7 +63,7 @@ $strutture = $stmtStrutture->fetchAll(PDO::FETCH_ASSOC);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="CSS/owner.css">
+    <link rel="stylesheet" href="../CSS/owner.css">
 </head>
 <body class="owner-theme">
 
@@ -124,11 +124,11 @@ $strutture = $stmtStrutture->fetchAll(PDO::FETCH_ASSOC);
         <?php if (count($strutture) > 0): ?>
             <div class="structures-grid">
                 <?php foreach ($strutture as $struttura): ?>
-                    <a href="struttura.php?id=<?php echo $struttura['CodStruttura']; ?>" class="structure-card">
+                    <a href="../structurepages/struttura.php?id=<?php echo $struttura['CodStruttura']; ?>" class="structure-card">
 
                         <div class="structure-image">
                             <?php if (!empty($struttura['UrlFoto'])): ?>
-                                <img src="<?php echo htmlspecialchars($struttura['UrlFoto']); ?>" alt="Foto struttura">
+                                <img src="../<?php echo htmlspecialchars($struttura['UrlFoto']); ?>" alt="Foto struttura">
                             <?php else: ?>
                                 <div class="structure-placeholder">
                                     <i class="fa-regular fa-image"></i>

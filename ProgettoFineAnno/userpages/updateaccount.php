@@ -4,11 +4,11 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 if (empty($_SESSION['IdUtente'])) {
-    header("Location: login.php");
+    header("Location: ../login.php");
     exit;
 }
 
-require __DIR__ . '/PHP/connect.php';
+require __DIR__ . '/../include/connect.php';
 
 $idUtente = $_SESSION['IdUtente'];
 
@@ -38,6 +38,6 @@ $stmt->execute();
 $_SESSION['Nome'] = $nome;
 $_SESSION['Cognome'] = $cognome;
 
-header("Location: index.php");
+header("Location: ../index.php");
 exit;
 ?>

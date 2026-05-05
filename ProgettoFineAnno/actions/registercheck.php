@@ -5,7 +5,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-require __DIR__ . '/PHP/connect.php';
+require __DIR__ . '/include/connect.php';
 
 $email = trim($_POST['email'] ?? '');
 $password = $_POST['password'] ?? '';

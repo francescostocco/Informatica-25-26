@@ -10,11 +10,11 @@ if (
     empty($_SESSION['ruolo']) ||
     $_SESSION['ruolo'] !== 'proprietario'
 ) {
-    header("Location: login.php");
+    header("Location: ../login.php");
     exit;
 }
 
-require __DIR__ . '/PHP/connect.php';
+require __DIR__ . '/../include/connect.php';
 
 /* =========================
    Dati Form Principali
@@ -39,7 +39,7 @@ if (
     $tipoLocalita === '' ||
     $tipologia === ''
 ) {
-    header("Location: addstruttura.php?err=1");
+    header("Location: ../ownerpages/addstruttura.php?err=1");
     exit;
 }
 
@@ -62,7 +62,7 @@ try {
 
     if (!$proprietario) {
         $conn->rollBack();
-        header("Location: addstruttura.php?err=2");
+        header("Location: ../ownerpages/addstruttura.php?err=2");
         exit;
     }
 
@@ -174,7 +174,7 @@ try {
 
     else {
         $conn->rollBack();
-        header("Location: addstruttura.php?err=3");
+        header("Location: ../ownerpages/addstruttura.php?err=3");
         exit;
     }
 
@@ -182,7 +182,7 @@ try {
        5. Gestione caricamento foto
     ========================= */
     if (!empty($_FILES['foto']['name'][0])) {
-        $uploadDir = __DIR__ . '/uploads/strutture/';
+        $uploadDir = __DIR__ . '/../uploads/strutture/';
 
         if (!is_dir($uploadDir)) {
             mkdir($uploadDir, 0777, true);
@@ -212,7 +212,7 @@ try {
 
     $conn->commit();
 
-    header("Location: owneraccount.php?ok=1");
+    header("Location: ../ownerpages/owneraccount.php?ok=1");
     exit;
 
 } catch (Exception $e) {

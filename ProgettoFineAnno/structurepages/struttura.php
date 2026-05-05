@@ -3,12 +3,12 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-require __DIR__ . '/PHP/connect.php';
+require __DIR__ . '/../include/connect.php';
 
 $codStruttura = $_GET['id'] ?? '';
 
 if ($codStruttura === '') {
-    header("Location: index.php");
+    header("Location: ../index.php");
     exit;
 }
 
@@ -26,7 +26,7 @@ $stmtStruttura->execute();
 $struttura = $stmtStruttura->fetch(PDO::FETCH_ASSOC);
 
 if (!$struttura) {
-    header("Location: index.php");
+    header("Location: ../index.php");
     exit;
 }
 
@@ -89,7 +89,7 @@ if ($albergo) {
     <title><?php echo htmlspecialchars($struttura['NomeStruttura']); ?> - OpinioniVacanze</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="CSS/struttura.css">
+    <link rel="stylesheet" href="../CSS/struttura.css">
 </head>
 <body class="<?php echo (!empty($_SESSION['ruolo']) && $_SESSION['ruolo'] === 'proprietario') ? 'owner-theme' : ''; ?>">
 
@@ -120,7 +120,7 @@ if ($albergo) {
                 <?php if (count($foto) > 0): ?>
                     <?php foreach ($foto as $immagine): ?>
                         <div class="gallery-item">
-                            <img src="<?php echo htmlspecialchars($immagine['UrlFoto']); ?>" alt="Foto struttura">
+                            <img src="../<?php echo htmlspecialchars($immagine['UrlFoto']); ?>" alt="Foto struttura">
                         </div>
                     <?php endforeach; ?>
                 <?php else: ?>

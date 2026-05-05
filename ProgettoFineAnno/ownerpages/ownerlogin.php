@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Area Proprietari - OpinioniVacanze</title>
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="CSS/ownerauth.css">
+    <link rel="stylesheet" href="../CSS/ownerauth.css">
 </head>
 <body>
 
@@ -14,7 +14,7 @@
 
         <!-- REGISTRAZIONE PROPRIETARIO -->
         <div class="owner-form-panel owner-register-panel">
-            <form action="ownerregistercheck.php" method="POST" class="owner-form">
+            <form action="../actions/ownerregistercheck.php" method="POST" class="owner-form">
                 <h2>Registrazione proprietario</h2>
                 <p class="owner-subtitle">Crea il tuo account per inserire e gestire strutture.</p>
 
@@ -33,7 +33,7 @@
 
         <!-- LOGIN PROPRIETARIO -->
         <div class="owner-form-panel owner-login-panel">
-            <form action="ownerlogincheck.php" method="POST" class="owner-form">
+            <form action="../actions/ownerlogincheck.php" method="POST" class="owner-form">
                 <h2>Accesso proprietari</h2>
                 <p class="owner-subtitle">Accedi al pannello per gestire le tue strutture.</p>
 
@@ -43,7 +43,7 @@
                 <button type="submit">Accedi</button>
 
                 <p class="back-user-link">
-                    Sei un utente normale? <a href="login.php">Torna all’accesso utente</a>
+                    Sei un utente normale? <a href="../login.php">Torna all’accesso utente</a>
                 </p>
             </form>
         </div>

@@ -5,12 +5,12 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 // Se utente non è loggato viene mandato automaticamente al login
 if (empty($_SESSION['IdUtente'])) {
-    header("Location: login.php");
+    header("Location: ../login.php");
     exit;
 }
 
 // Richiede il file connect.php per connessione al database
-require __DIR__ . '/PHP/connect.php';
+require __DIR__ . '/../include/connect.php';
 
 // Salva ID Utente in una variabile
 $idUtente = $_SESSION['IdUtente'];
@@ -41,7 +41,7 @@ $profiloCompleto = !empty($utente['Nome']) && !empty($utente['Cognome']) && !emp
     <title>Area personale - OpinioniVacanze</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="CSS/account.css">
+    <link rel="stylesheet" href="../CSS/account.css">
 </head>
 <body>
 

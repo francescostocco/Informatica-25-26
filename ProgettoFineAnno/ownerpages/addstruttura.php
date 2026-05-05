@@ -4,7 +4,7 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 if (empty($_SESSION['IdUtente']) || empty($_SESSION['ruolo']) || $_SESSION['ruolo'] !== 'proprietario') {
-    header("Location: login.php");
+    header("Location: ../login.php");
     exit;
 }
 ?>
@@ -17,7 +17,7 @@ if (empty($_SESSION['IdUtente']) || empty($_SESSION['ruolo']) || $_SESSION['ruol
     <title>Aggiungi Struttura - OpinioniVacanze</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="CSS/addstruttura.css">
+    <link rel="stylesheet" href="../CSS/addstruttura.css">
 </head>
 <body class="<?php echo (!empty($_SESSION['ruolo']) && $_SESSION['ruolo'] === 'proprietario') ? 'owner-theme' : ''; ?>">
 
@@ -28,7 +28,7 @@ if (empty($_SESSION['IdUtente']) || empty($_SESSION['ruolo']) || $_SESSION['ruol
             <p>Inserisci le informazioni principali della struttura e carica le foto.</p>
         </div>
 
-        <form action="addstrutturacheck.php" method="POST" enctype="multipart/form-data" class="add-form">
+        <form action="../actions/addstrutturacheck.php" method="POST" enctype="multipart/form-data" class="add-form">
 
             <div class="form-grid">
                 <div class="form-group full">
@@ -166,25 +166,6 @@ if (empty($_SESSION['IdUtente']) || empty($_SESSION['ruolo']) || $_SESSION['ruol
                 </div>
             </div>
 
-            <!-- Agriturismo -->
-            <div class="specific-section" id="agriturismo-fields">
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label for="servizioRistorante">Ristorante incluso</label>
-                        <select id="servizioRistorante" name="servizioRistorante">
-                            <option value="">Seleziona</option>
-                            <option value="1">Sì</option>
-                            <option value="0">No</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="numeroCamereAgriturismo">Numero camere</label>
-                        <input type="number" id="numeroCamereAgriturismo" name="numeroCamereAgriturismo" min="1">
-                    </div>
-                </div>
-            </div>
-
             <div class="form-actions">
                 <button type="submit">Salva struttura</button>
             </div>
@@ -197,8 +178,7 @@ const tipologia = document.getElementById("tipologia");
 const sections = {
     albergo: document.getElementById("albergo-fields"),
     bnb: document.getElementById("bnb-fields"),
-    casavacanze: document.getElementById("casavacanze-fields"),
-    agriturismo: document.getElementById("agriturismo-fields")
+    casavacanze: document.getElementById("casavacanze-fields")
 };
 
 function hideAllSections() {

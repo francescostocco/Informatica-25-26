@@ -1,5 +1,5 @@
 <?php
-require __DIR__ . '/PHP/connect.php';
+require __DIR__ . '/include/connect.php';
 
 $sql = "SELECT 
         S.CodStruttura,
@@ -38,7 +38,7 @@ $strutture = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <link rel="stylesheet" href="CSS/index.css">
     <title>Homepage - OpinioniVacanze</title>
 </head>
-<body>
+<body class="<?php echo (!empty($_SESSION['ruolo']) && $_SESSION['ruolo'] === 'proprietario') ? 'owner-theme' : ''; ?>">
     <main class="main-content">
     <h1>Opinioni Vacanze</h1>
 
@@ -56,11 +56,11 @@ $strutture = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             <?php foreach ($strutture as $struttura): ?>
                 
-                <a href="struttura.php?id=<?php echo $struttura['CodStruttura']; ?>" class="structure-card">
+                <a href="structurepages/struttura.php?id=<?php echo $struttura['CodStruttura']; ?>" class="structure-card">
 
                     <div class="structure-image">
                         <?php if (!empty($struttura['UrlFoto'])): ?>
-                            <img src="<?php echo htmlspecialchars($struttura['UrlFoto']); ?>">
+                            <img src="<?php echo htmlspecialchars($struttura['UrlFoto']); ?>" alt="Foto struttura">
                         <?php else: ?>
                             <div class="structure-placeholder">
                                 <i class="fa-regular fa-image"></i>

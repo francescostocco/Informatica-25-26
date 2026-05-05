@@ -5,7 +5,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-require __DIR__ . '/PHP/connect.php';
+require __DIR__ . '/../include/connect.php';
 
 $email = trim($_POST['email'] ?? '');
 $passwordInserita = $_POST['password'] ?? '';
@@ -23,12 +23,12 @@ $stmt->execute();
 $utente = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$utente) {
-    header("Location: ownerlogin.php?err=1");
+    header("Location: ../ownerpages/ownerlogin.php?err=1");
     exit;
 }
 
 if (!password_verify($passwordInserita, $utente['PasswordUtente'])) {
-    header("Location: ownerlogin.php?err=2");
+    header("Location: ../ownerpages/ownerlogin.php?err=2");
     exit;
 }
 
@@ -38,6 +38,6 @@ $_SESSION['Cognome'] = $utente['Cognome'];
 $_SESSION['loggato'] = true;
 $_SESSION['ruolo'] = 'proprietario';
 
-header("Location: index.php");
+header("Location: ../index.php");
 exit;
 ?>

@@ -11,6 +11,6 @@ session_unset();
 session_destroy();
 
 // Torna alla homepage
-header("Location: index.php");
+header("Location: ../index.php");
 exit;
 ?>

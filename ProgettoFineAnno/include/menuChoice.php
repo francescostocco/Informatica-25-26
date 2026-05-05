@@ -3,25 +3,30 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Legge il file json
 $json = file_get_contents(__DIR__ . '/pages.json');
 $obj = json_decode($json);
 
-// Nome della pagina in cui si trova l'utente
 $pageName = basename($_SERVER['PHP_SELF']);
 
-/* Se la pagina è un'azione php, non stampare nulla */
+if (strpos($_SERVER['PHP_SELF'], '/adminpages/') !== false) {
+    return;
+}
+
+/* Percorso base del progetto */
+$basePath = "/ProgettoFineAnno/";
+
+/* Se è una pagina di azione, non stampare header */
 if (in_array($pageName, $obj->noHeaderPages ?? [])) {
     return;
 }
 
-/* Se la pagina richiede login e non sei loggato ti manda al login */
+/* Se la pagina richiede login e non sei loggato */
 if (in_array($pageName, $obj->protectedPages ?? []) && empty($_SESSION['loggato'])) {
-    header("Location: login.php");
+    header("Location: " . $basePath . "login.php");
     exit;
 }
 
-/* Se serve DB, includi connessione */
+/* Se serve DB */
 if (in_array($pageName, $obj->dbPages ?? [])) {
     require_once __DIR__ . '/connect.php';
 }
