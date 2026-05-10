@@ -41,6 +41,21 @@ $stmtFoto->execute();
 
 $foto = $stmtFoto->fetchAll(PDO::FETCH_ASSOC);
 
+
+/* RECENSIONI STRUTTURA */
+$sqlRecensioni = "SELECT R.Titolo, R.Commento, R.NumStelle, U.Nome, U.Cognome
+                  FROM Recensioni R
+                  INNER JOIN Utenti U ON R.IdUtente = U.IdUtente
+                  WHERE R.CodStruttura = :codStruttura
+                  ORDER BY R.IdRecensione DESC";
+
+$stmtRecensioni = $conn->prepare($sqlRecensioni);
+$stmtRecensioni->bindParam(':codStruttura', $codStruttura);
+$stmtRecensioni->execute();
+
+$recensioni = $stmtRecensioni->fetchAll(PDO::FETCH_ASSOC);
+
+
 /* TIPOLOGIA + DETTAGLI SPECIFICI */
 $tipologia = 'Struttura';
 $dettagli = [];
@@ -134,6 +149,39 @@ if ($albergo) {
             <div class="structure-section">
                 <h2>Descrizione</h2>
                 <p><?php echo nl2br(htmlspecialchars($struttura['Descrizione'])); ?></p>
+            </div>
+
+            <div class="structure-section reviews-section">
+                <h2>Recensioni</h2>
+
+                <?php if (count($recensioni) > 0): ?>
+                    <div class="reviews-list">
+                        <?php foreach ($recensioni as $recensione): ?>
+                            <div class="review-card">
+                                <div class="review-top">
+                                    <div>
+                                        <h3><?php echo htmlspecialchars($recensione['Titolo']); ?></h3>
+                                        <p class="review-author">
+                                            <?php echo htmlspecialchars($recensione['Nome'] . ' ' . $recensione['Cognome']); ?>
+                                        </p>
+                                    </div>
+
+                                    <div class="review-stars">
+                                        <?php for ($i = 1; $i <= 5; $i++): ?>
+                                            <span class="<?php echo $i <= $recensione['NumStelle'] ? 'active' : ''; ?>">★</span>
+                                        <?php endfor; ?>
+                                    </div>
+                                </div>
+
+                                <p class="review-text">
+                                    <?php echo nl2br(htmlspecialchars($recensione['Commento'])); ?>
+                                </p>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                <?php else: ?>
+                    <p class="no-reviews">Non ci sono ancora recensioni per questa struttura.</p>
+                <?php endif; ?>
             </div>
 
         </div>
@@ -241,9 +289,58 @@ if ($albergo) {
                     <p class="no-details">Nessun dettaglio specifico disponibile.</p>
                 <?php endif; ?>
             </div>
+            
+<?php if (!empty($_SESSION['loggato']) && ($_SESSION['ruolo'] ?? '') === 'utente'): ?>
+
+            <div class="review-form-box">
+
+                <h2>Lascia una recensione</h2>
+
+                <form action="../actions/addrecensione.php" method="POST" class="review-form">
+
+                    <input type="hidden" name="codStruttura" value="<?php echo $struttura['CodStruttura']; ?>">
+
+                <div class="form-group">
+                    <label for="titolo">Titolo recensione</label>
+                    <input type="text" id="titolo" name="titolo" required>
+                </div>
+
+                <div class="form-group stars-group">
+                    <label>Valutazione</label>
+
+                    <div class="star-rating">
+                        <input type="radio" id="star5" name="voto" value="5" required>
+                        <label for="star5">★</label>
+
+                        <input type="radio" id="star4" name="voto" value="4">
+                        <label for="star4">★</label>
+
+                        <input type="radio" id="star3" name="voto" value="3">
+                        <label for="star3">★</label>
+
+                        <input type="radio" id="star2" name="voto" value="2">
+                        <label for="star2">★</label>
+
+                        <input type="radio" id="star1" name="voto" value="1">
+                        <label for="star1">★</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="testo">Recensione</label>
+                    <textarea id="testo" name="testo" rows="5" required></textarea>
+                </div>
+
+                <button type="submit">Pubblica recensione</button>
+
+            </form>
+
+        </div>
+        <?php endif; ?>
 
         </aside>
     </div>
+    
 </div>
 
 </body>
