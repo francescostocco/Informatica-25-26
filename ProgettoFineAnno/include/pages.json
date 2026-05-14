@@ -2,13 +2,26 @@
   "name": "OpinioniVacanze pages",
 
   "dbPages": [
+    "index.php",
     "logincheck.php",
     "registercheck.php",
     "account.php",
+    "updateaccount.php",
     "ownerlogincheck.php",
     "ownerregistercheck.php",
     "owneraccount.php",
-    "addstrutturacheck.php"
+    "addstruttura.php",
+    "addstrutturacheck.php",
+    "struttura.php",
+    "addrecensione.php",
+    "admincode.php",
+    "admincodecheck.php",
+    "dashboard.php",
+    "strutture.php",
+    "recensioni.php",
+    "statistiche.php",
+    "eliminastruttura.php",
+    "eliminarecensioni.php"
   ],
 
   "noHeaderPages": [
@@ -17,24 +30,36 @@
     "logout.php",
     "ownerlogincheck.php",
     "ownerregistercheck.php",
-    "addstrutturacheck.php"
+    "addstrutturacheck.php",
+    "updateaccount.php",
+    "addrecensione.php",
+    "admincodecheck.php",
+    "eliminastruttura.php",
+    "eliminarecensioni.php"
   ],
 
   "protectedPages": [
     "account.php",
     "owneraccount.php",
-    "addstruttura.php"
+    "addstruttura.php",
+    "dashboard.php",
+    "strutture.php",
+    "recensioni.php",
+    "statistiche.php"
   ],
 
   "guestHeaderPages": [
     "index.php",
-    "login.php"
+    "login.php",
+    "ownerlogin.php", 
+    "struttura.php"
   ],
 
   "loggedHeaderPages": [
     "index.php",
     "account.php",
     "owneraccount.php",
-    "addstruttura.php"
+    "addstruttura.php",
+    "struttura.php"
   ]
 }

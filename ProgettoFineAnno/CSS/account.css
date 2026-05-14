@@ -113,3 +113,79 @@ body{
 .account-info strong{
   color:var(--primary);
 }
+
+.account-page{
+  width:100%;
+  max-width:1000px;
+  margin:auto;
+  display:grid;
+  grid-template-columns:360px 1fr;
+  gap:24px;
+  align-items:start;
+}
+
+.reviews-account-container{
+  max-width:none;
+}
+
+.account-reviews-list{
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+}
+
+.account-review-card{
+  background:#f8fafc;
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:18px;
+}
+
+.account-review-top{
+  display:flex;
+  justify-content:space-between;
+  gap:14px;
+  margin-bottom:12px;
+}
+
+.account-review-card h3{
+  font-size:1rem;
+  color:var(--text);
+  margin-bottom:6px;
+}
+
+.account-review-card a{
+  color:var(--primary);
+  font-size:.9rem;
+  font-weight:700;
+  text-decoration:none;
+}
+
+.account-review-card a:hover{
+  text-decoration:underline;
+}
+
+.account-review-stars{
+  white-space:nowrap;
+}
+
+.account-review-stars span{
+  color:#cbd5e1;
+  font-size:1.05rem;
+}
+
+.account-review-stars span.active{
+  color:#fbbf24;
+}
+
+.account-review-card p{
+  color:var(--text);
+  line-height:1.6;
+  font-size:.95rem;
+}
+
+@media(max-width:850px){
+  .account-page{
+    grid-template-columns:1fr;
+  }
+}

@@ -115,9 +115,4 @@ ALTER TABLE Utenti MODIFY Cognome VARCHAR(20) NULL;
 ALTER TABLE strutture MODIFY Descrizione VARCHAR(2000);
 
 INSERT INTO Amministratori (IdUtente, CodiceAccesso, DataNomina)
-VALUES (3, 'ADMIN001', CURDATE());
-
-DELETE FROM Amministratori WHERE IdUtente = 3;
-
-INSERT INTO Amministratori (IdUtente, CodiceAccesso, DataNomina)
-VALUES (2, 'ADMIN001', CURDATE());
+VALUES (11, 'ADMIN001', CURDATE());

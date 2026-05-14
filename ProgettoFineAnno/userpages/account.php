@@ -1,37 +1,50 @@
 <?php
-// Partenza sessione se non ancora avviata
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-// Se utente non è loggato viene mandato automaticamente al login
+
 if (empty($_SESSION['IdUtente'])) {
     header("Location: ../login.php");
     exit;
 }
 
-// Richiede il file connect.php per connessione al database
 require __DIR__ . '/../include/connect.php';
 
-// Salva ID Utente in una variabile
 $idUtente = $_SESSION['IdUtente'];
 
-// Query per prendere i dati dell'utente
+/* DATI UTENTE */
 $sql = "SELECT Nome, Cognome, DataNascita, Email
         FROM Utenti
         WHERE IdUtente = :idUtente
-        LIMIT 1"; // Limit 1 -> massimo una tupla
+        LIMIT 1";
 
-$stmt = $conn->prepare($sql); // Prepara la query (contro SQL Injection)
-$stmt->bindParam(':idUtente', $idUtente); // Collega il valore della variabile IdUtente al parametro
-$stmt->execute(); // Esegue la query 
+$stmt = $conn->prepare($sql);
+$stmt->bindParam(':idUtente', $idUtente);
+$stmt->execute();
 
-// Prende il risultato dell'esecuzione della query, lo prende come array
-$utente = $stmt->fetch(PDO::FETCH_ASSOC); 
+$utente = $stmt->fetch(PDO::FETCH_ASSOC);
 
-// Controlla che il profilo sia completo, cioè se tutti i dati sono stati inseriti
-// Serve perché quando l'utente viene registrato nella pagina dell'account dovrà completare la registrazione 
-// con nome, cognome, data di nascita
 $profiloCompleto = !empty($utente['Nome']) && !empty($utente['Cognome']) && !empty($utente['DataNascita']);
+
+/* RECENSIONI SCRITTE DALL'UTENTE */
+$sqlRecensioni = "SELECT 
+                    R.IdRecensione,
+                    R.Titolo,
+                    R.Commento,
+                    R.NumStelle,
+                    S.CodStruttura,
+                    S.NomeStruttura,
+                    S.`Città`
+                  FROM Recensioni R
+                  INNER JOIN Strutture S ON R.CodStruttura = S.CodStruttura
+                  WHERE R.IdUtente = :idUtente
+                  ORDER BY R.IdRecensione DESC";
+
+$stmtRecensioni = $conn->prepare($sqlRecensioni);
+$stmtRecensioni->bindParam(':idUtente', $idUtente);
+$stmtRecensioni->execute();
+
+$recensioni = $stmtRecensioni->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -45,32 +58,68 @@ $profiloCompleto = !empty($utente['Nome']) && !empty($utente['Cognome']) && !emp
 </head>
 <body>
 
-<div class="account-container">
-    <h2>Area personale</h2>
-    <!-- Parte dinamica: se l'utente non ha completato il profilo viene mostrato il form per completarlo -->
-    <?php if (!$profiloCompleto): ?>
-        <p class="account-subtitle">Completa la registrazione inserendo i tuoi dati personali.</p>
+<div class="account-page">
 
-        <form action="updateaccount.php" method="POST" class="account-form">
-            <label for="nome">Nome</label>
-            <input type="text" id="nome" name="nome" required>
+    <div class="account-container">
+        <h2>Area personale</h2>
 
-            <label for="cognome">Cognome</label>
-            <input type="text" id="cognome" name="cognome" required>
+        <?php if (!$profiloCompleto): ?>
+            <p class="account-subtitle">Completa la registrazione inserendo i tuoi dati personali.</p>
 
-            <label for="dataNascita">Data di nascita</label>
-            <input type="date" id="dataNascita" name="dataNascita" required>
+            <form action="updateaccount.php" method="POST" class="account-form">
+                <label for="nome">Nome</label>
+                <input type="text" id="nome" name="nome" required>
 
-            <button type="submit">Salva dati</button>
-        </form>
-    <?php else: ?> <!-- Altrimenti (se il profilo è completo) mostra i dati dell'utente, tranne password -->
-        <div class="account-info">
-            <p><strong>Nome:</strong> <?php echo htmlspecialchars($utente['Nome']); ?></p>
-            <p><strong>Cognome:</strong> <?php echo htmlspecialchars($utente['Cognome']); ?></p>
-            <p><strong>Data di nascita:</strong> <?php echo htmlspecialchars($utente['DataNascita']); ?></p>
-            <p><strong>Email:</strong> <?php echo htmlspecialchars($utente['Email']); ?></p>
-        </div>
-    <?php endif; ?> <!-- Fine della parte dinamica, chiusura if php-->
+                <label for="cognome">Cognome</label>
+                <input type="text" id="cognome" name="cognome" required>
+
+                <label for="dataNascita">Data di nascita</label>
+                <input type="date" id="dataNascita" name="dataNascita" required>
+
+                <button type="submit">Salva dati</button>
+            </form>
+        <?php else: ?>
+            <div class="account-info">
+                <p><strong>Nome:</strong> <?php echo htmlspecialchars($utente['Nome']); ?></p>
+                <p><strong>Cognome:</strong> <?php echo htmlspecialchars($utente['Cognome']); ?></p>
+                <p><strong>Data di nascita:</strong> <?php echo htmlspecialchars($utente['DataNascita']); ?></p>
+                <p><strong>Email:</strong> <?php echo htmlspecialchars($utente['Email']); ?></p>
+            </div>
+        <?php endif; ?>
+    </div>
+
+    <div class="account-container reviews-account-container">
+        <h2>Le tue recensioni</h2>
+
+        <?php if (count($recensioni) > 0): ?>
+            <div class="account-reviews-list">
+                <?php foreach ($recensioni as $recensione): ?>
+                    <div class="account-review-card">
+                        <div class="account-review-top">
+                            <div>
+                                <h3><?php echo htmlspecialchars($recensione['Titolo']); ?></h3>
+                                <a href="../structurepages/struttura.php?id=<?php echo $recensione['CodStruttura']; ?>">
+                                    <?php echo htmlspecialchars($recensione['NomeStruttura']); ?> · 
+                                    <?php echo htmlspecialchars($recensione['Città']); ?>
+                                </a>
+                            </div>
+
+                            <div class="account-review-stars">
+                                <?php for ($i = 1; $i <= 5; $i++): ?>
+                                    <span class="<?php echo $i <= $recensione['NumStelle'] ? 'active' : ''; ?>">★</span>
+                                <?php endfor; ?>
+                            </div>
+                        </div>
+
+                        <p><?php echo nl2br(htmlspecialchars($recensione['Commento'])); ?></p>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        <?php else: ?>
+            <p class="account-subtitle">Non hai ancora scritto recensioni.</p>
+        <?php endif; ?>
+    </div>
+
 </div>
 
 </body>

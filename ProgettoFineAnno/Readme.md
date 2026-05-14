@@ -1,47 +1,108 @@
-# Opinioni Vacanze (Sito Web per recensioni di strutture turistiche) 
-
-**Sviluppatore:** Francesco Stocco
+# OpinioniVacanze
 
 ## Descrizione del progetto
 
-Sito web di recensioni per strutture turistiche (hotel, B&B, case vacanza, agriturismi) nel quale sono presenti diverse strutture organizzate per località. Tutti gli utenti possono visualizzare le strutture disponibili, leggere le informazioni principali e inserire recensioni testuali e valutazioni tramite stelle.
-Esiste una sezione in cui, tramite login, è possibile inserire nuove strutture turistiche. Le strutture e le recensioni sono invece visibili a tutti gli utenti, anche senza login.
-Solo agli amministratori del sito saranno disponibili pagine di gestione che permettono di eliminare le strutture e di consultare statistiche, come le strutture più visitate o quelle che hanno ottenuto la valutazione media più alta. Sarà inoltre possibile applicare filtri ai risultati, ad esempio per località, tipologia di struttura o numero di stelle. Durante lo sviluppo alcune funzionalità potranno essere modificate o ampliate.
+OpinioniVacanze è una piattaforma web sviluppata in PHP e MySQL che permette agli utenti di cercare, visualizzare e recensire strutture turistiche come alberghi, B&B e case vacanze.
 
----
+Il progetto include:
+- autenticazione utenti
+- autenticazione proprietari
+- pannello amministratore
+- gestione strutture
+- sistema recensioni
+- dashboard statistiche
+- ricerca dinamica con filtri
 
-## Database
+# Tecnologie utilizzate
 
-- **Tabella UTENTI**  
-(<u>IdUtente</u>, Nome, Cognome, DataNascita, Email, PasswordUtente)
+- PHP
+- MySQL
+- HTML
+- CSS
+- JavaScript
 
-- **Tabella AMMINISTRATORI**  
-(<u>IdUtente</u>FK, CodiceAccesso, DataNomina)
+# Funzionalità principali
 
-- **Tabella PROPRIETARI**   
-(<u>IdUtente</u>FK, NomeAttività, SedeLegale, PartitaIVA, Telefono, IdProprietario)
+## Utenti
+- Registrazione e login
+- Completamento profilo personale
+- Ricerca strutture
+- Filtri per tipologia e località
+- Inserimento recensioni
+- Visualizzazione recensioni personali
 
-- **Tabella TIPOLOCALITA’**  
-(<u>IdTipoLocalità</u>, TipoLocalità)
+## Proprietari
+- Registrazione proprietario
+- Login proprietario
+- Inserimento strutture
+- Gestione strutture
+- Inserimento foto strutture
 
-- **Tabella STRUTTURE**  
-(<u>CodStruttura</u>, NomeStruttura, Descrizione, Indirizzo, Città, IdTipoLocalitàFK, IdProprietarioFK)
+## Amministratori
+- Accesso protetto tramite codice amministratore
+- Dashboard backend dedicata
+- Gestione strutture
+- Eliminazione recensioni
+- Visualizzazione statistiche piattaforma
 
-- **Tabella FOTOSTRUTTURE**  
-(<u>IdFoto</u>, UrlFoto, CoSdStrutturaFK)
 
-- **Tabella ALBERGHI**  
-(<u>CodStruttura</u>FK, Catena, NumeroCamere, NumeroStelle)
+# Database
 
-- **Tabella B&B**  
-(<u>CodStruttura</u>FK, Categoria, NumeroCamere, ColazioneInclusa)
+Il database contiene le seguenti tabelle principali:
 
-- **Tabella CASEVACANZE**  
-(<u>CodStruttura</u>FK, NumPostiLetto, Superficie, NumBagni, AnimaliAmmessi)
+- Utenti
+- Proprietari
+- Amministratori
+- Strutture
+- Alberghi
+- BnB
+- CaseVacanze
+- FotoStrutture
+- Recensioni
+- TipoLocalità
 
-- **Tabella RECENSIONI**  
-(<u>IdRecensione</u>, IdUtenteFK, NumStelle, Titolo, Commento, CodStrutturaFK)
 
----
+# Diagramma ER e schema logico
 
-## Database
+![Diagramma ER e Schema Logico](IMG/schemaer_e_schemalogico.png)
+
+
+# Sicurezza implementata
+
+- Prepared Statements con PDO
+- Protezione SQL Injection
+- Password hashate tramite `password_hash()`
+- Verifica password con `password_verify()`
+- Controllo sessioni per pagine protette
+- Separazione ruoli:
+  - utente
+  - proprietario
+  - amministratore
+
+
+# Ricerca e filtri
+
+La homepage include:
+- ricerca automatica dinamica
+- filtro per tipologia struttura
+- filtro per località
+
+La ricerca viene aggiornata automaticamente durante la digitazione.
+
+
+# Area amministratore
+
+L’area amministratore è separata dal frontend principale del sito.
+
+L’accesso avviene tramite:
+1. login utente
+2. verifica ruolo amministratore
+3. inserimento codice amministratore
+4. accesso dashboard backend
+
+Funzionalità disponibili:
+- gestione strutture
+- eliminazione strutture
+- gestione recensioni
+- eliminazione recensioni
+- statistiche piattaforma

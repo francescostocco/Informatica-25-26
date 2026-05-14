@@ -5,7 +5,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-require __DIR__ . '/include/connect.php';
+require __DIR__ . '/../include/connect.php';
 
 $email = trim($_POST['email'] ?? '');
 $password = $_POST['password'] ?? '';
@@ -39,6 +39,9 @@ if ($check->fetch()) {
     exit;
 }
 
+// Hash della password
+$passwordHash = password_hash($password, PASSWORD_DEFAULT);
+
 // Inserimento utente con dati mancanti vuoti
 $sql = "INSERT INTO Utenti (Nome, Cognome, DataNascita, Email, PasswordUtente)
         VALUES (:nome, :cognome, :dataNascita, :email, :password)";
@@ -52,7 +55,7 @@ $stmt->bindParam(':nome', $nome);
 $stmt->bindParam(':cognome', $cognome);
 $stmt->bindParam(':dataNascita', $dataNascita);
 $stmt->bindParam(':email', $email);
-$stmt->bindParam(':password', $password);
+$stmt->bindParam(':password', $passwordHash);
 
 $stmt->execute();
 
@@ -61,7 +64,8 @@ $_SESSION['IdUtente'] = $conn->lastInsertId();
 $_SESSION['Nome'] = $nome;
 $_SESSION['Cognome'] = $cognome;
 $_SESSION['loggato'] = true;
+$_SESSION['ruolo'] = 'utente';
 
-header("Location: account.php");
+header("Location: ../userpages/account.php");
 exit;
 ?>

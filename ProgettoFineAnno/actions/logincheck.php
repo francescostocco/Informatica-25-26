@@ -26,7 +26,7 @@ if (!$utente) {
     exit;
 }
 
-if ($passwordInserita !== $utente['PasswordUtente']) {
+if (!password_verify($passwordInserita, $utente['PasswordUtente'])) {
     header("Location: ../login.php?err=2");
     exit;
 }
