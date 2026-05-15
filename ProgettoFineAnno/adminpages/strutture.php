@@ -10,19 +10,12 @@ if (empty($_SESSION['ruolo']) || $_SESSION['ruolo'] !== 'admin') {
 
 require __DIR__ . '/../include/connect.php';
 
-$sql = "SELECT 
-        S.CodStruttura,
-        S.NomeStruttura,
-        S.`Città`,
-        U.Email,
-        P.`NomeAttività`,
-
+$sql = "SELECT S.CodStruttura, S.NomeStruttura, S.`Città`, U.Email, P.`NomeAttività`,
         CASE
             WHEN A.CodStruttura IS NOT NULL THEN 'Albergo'
             WHEN B.CodStruttura IS NOT NULL THEN 'B&B'
             ELSE 'Casa vacanze'
         END AS Tipologia
-
         FROM Strutture S
         INNER JOIN Proprietari P ON S.IdProprietario = P.IdProprietario
         INNER JOIN Utenti U ON P.IdUtente = U.IdUtente

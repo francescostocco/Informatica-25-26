@@ -16,11 +16,8 @@ require __DIR__ . '/../include/connect.php';
 
 $idUtente = $_SESSION['IdUtente'];
 
-$sql = "SELECT U.Email, P.IdProprietario, P.`NomeAttività`, P.SedeLegale, P.PartitaIVA, P.Telefono
-        FROM Utenti U
-        INNER JOIN Proprietari P ON U.IdUtente = P.IdUtente
-        WHERE U.IdUtente = :idUtente
-        LIMIT 1";
+$sql = "SELECT U.Email, P.IdProprietario, P.`NomeAttività`, P.SedeLegale, P.PartitaIVA, P.Telefono FROM Utenti U
+        INNER JOIN Proprietari P ON U.IdUtente = P.IdUtente WHERE U.IdUtente = :idUtente LIMIT 1";
 
 $stmt = $conn->prepare($sql);
 $stmt->bindParam(':idUtente', $idUtente);

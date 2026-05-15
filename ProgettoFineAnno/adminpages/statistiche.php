@@ -10,45 +10,32 @@ if (empty($_SESSION['ruolo']) || $_SESSION['ruolo'] !== 'admin') {
 
 require __DIR__ . '/../include/connect.php';
 
-/* Totale utenti */
 $stmt = $conn->prepare("SELECT COUNT(*) AS totale FROM Utenti");
 $stmt->execute();
 $totaleUtenti = $stmt->fetch(PDO::FETCH_ASSOC)['totale'];
 
-/* Totale proprietari */
 $stmt = $conn->prepare("SELECT COUNT(*) AS totale FROM Proprietari");
 $stmt->execute();
 $totaleProprietari = $stmt->fetch(PDO::FETCH_ASSOC)['totale'];
 
-/* Totale strutture */
 $stmt = $conn->prepare("SELECT COUNT(*) AS totale FROM Strutture");
 $stmt->execute();
 $totaleStrutture = $stmt->fetch(PDO::FETCH_ASSOC)['totale'];
 
-/* Totale recensioni */
 $stmt = $conn->prepare("SELECT COUNT(*) AS totale FROM Recensioni");
 $stmt->execute();
 $totaleRecensioni = $stmt->fetch(PDO::FETCH_ASSOC)['totale'];
 
-/* Struttura con media stelle più alta */
-$sqlMigliore = "SELECT S.NomeStruttura, AVG(R.NumStelle) AS mediaStelle
-                FROM Recensioni R
-                INNER JOIN Strutture S ON R.CodStruttura = S.CodStruttura
-                GROUP BY S.CodStruttura
-                ORDER BY mediaStelle DESC
-                LIMIT 1";
+$sqlMigliore = "SELECT S.NomeStruttura, AVG(R.NumStelle) AS mediaStelle FROM Recensioni R
+                INNER JOIN Strutture S ON R.CodStruttura = S.CodStruttura GROUP BY S.CodStruttura ORDER BY mediaStelle DESC LIMIT 1";
 
 $stmt = $conn->prepare($sqlMigliore);
 $stmt->execute();
 $migliore = $stmt->fetch(PDO::FETCH_ASSOC);
 
-/* Struttura con più recensioni */
-$sqlPiuRecensita = "SELECT S.NomeStruttura, COUNT(R.IdRecensione) AS numeroRecensioni
-                    FROM Recensioni R
-                    INNER JOIN Strutture S ON R.CodStruttura = S.CodStruttura
-                    GROUP BY S.CodStruttura
-                    ORDER BY numeroRecensioni DESC
-                    LIMIT 1";
+/* Prendo struttura con più recensioni */
+$sqlPiuRecensita = "SELECT S.NomeStruttura, COUNT(R.IdRecensione) AS numeroRecensioni FROM Recensioni R
+                    INNER JOIN Strutture S ON R.CodStruttura = S.CodStruttura GROUP BY S.CodStruttura ORDER BY numeroRecensioni DESC LIMIT 1";
 
 $stmt = $conn->prepare($sqlPiuRecensita);
 $stmt->execute();

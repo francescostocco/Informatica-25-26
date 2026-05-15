@@ -7,12 +7,7 @@ $tipologiaFiltro = trim($_GET['tipologia'] ?? '');
 $localitaFiltro = trim($_GET['localita'] ?? '');
 
 /* Query strutture */
-$sql = "SELECT 
-        S.CodStruttura,
-        S.NomeStruttura,
-        S.`Città`,
-        F.UrlFoto,
-        T.`TipoLocalità`,
+$sql = "SELECT S.CodStruttura, S.NomeStruttura, S.`Città`, F.UrlFoto, T.`TipoLocalità`,
         CASE
             WHEN A.CodStruttura IS NOT NULL THEN 'Albergo'
             WHEN B.CodStruttura IS NOT NULL THEN 'B&B'
@@ -20,16 +15,11 @@ $sql = "SELECT
             ELSE 'Struttura'
         END AS Tipologia
         FROM Strutture S
-        LEFT JOIN FotoStrutture F 
-            ON S.CodStruttura = F.CodStruttura
-        LEFT JOIN Alberghi A 
-            ON S.CodStruttura = A.CodStruttura
-        LEFT JOIN BnB B 
-            ON S.CodStruttura = B.CodStruttura
-        LEFT JOIN CaseVacanze C 
-            ON S.CodStruttura = C.CodStruttura
-        LEFT JOIN `TipoLocalità` T 
-            ON S.`IdTipoLocalità` = T.`IdTipoLocalità`";
+        LEFT JOIN FotoStrutture F ON S.CodStruttura = F.CodStruttura
+        LEFT JOIN Alberghi A ON S.CodStruttura = A.CodStruttura
+        LEFT JOIN BnB B ON S.CodStruttura = B.CodStruttura
+        LEFT JOIN CaseVacanze C ON S.CodStruttura = C.CodStruttura
+        LEFT JOIN `TipoLocalità` T ON S.`IdTipoLocalità` = T.`IdTipoLocalità`";
 
 $where = [];
 
@@ -101,7 +91,6 @@ $filtriAttivi = $tipologiaFiltro !== '' || $localitaFiltro !== '';
 
     <h1>Opinioni Vacanze</h1>
 
-    <!-- Barra ricerca + bottone filtri -->
     <form class="search-area" method="GET" action="index.php" id="searchForm">
 
         <div class="search-bar">
@@ -153,7 +142,6 @@ $filtriAttivi = $tipologiaFiltro !== '' || $localitaFiltro !== '';
 
     </form>
 
-    <!-- Sezione strutture -->
     <div class="home-structures">
 
         <h2>Strutture disponibili</h2>

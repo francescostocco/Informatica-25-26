@@ -13,11 +13,8 @@ if ($codStruttura === '') {
 }
 
 /* DATI PRINCIPALI STRUTTURA */
-$sqlStruttura = "SELECT S.*, T.`TipoLocalità`
-                 FROM Strutture S
-                 LEFT JOIN `TipoLocalità` T ON S.`IdTipoLocalità` = T.`IdTipoLocalità`
-                 WHERE S.CodStruttura = :codStruttura
-                 LIMIT 1";
+$sqlStruttura = "SELECT S.*, T.`TipoLocalità` FROM Strutture S
+                 LEFT JOIN `TipoLocalità` T ON S.`IdTipoLocalità` = T.`IdTipoLocalità` WHERE S.CodStruttura = :codStruttura LIMIT 1";
 
 $stmtStruttura = $conn->prepare($sqlStruttura);
 $stmtStruttura->bindParam(':codStruttura', $codStruttura);
@@ -31,9 +28,7 @@ if (!$struttura) {
 }
 
 /* FOTO STRUTTURA */
-$sqlFoto = "SELECT UrlFoto
-            FROM FotoStrutture
-            WHERE CodStruttura = :codStruttura";
+$sqlFoto = "SELECT UrlFoto FROM FotoStrutture WHERE CodStruttura = :codStruttura";
 
 $stmtFoto = $conn->prepare($sqlFoto);
 $stmtFoto->bindParam(':codStruttura', $codStruttura);
@@ -43,11 +38,8 @@ $foto = $stmtFoto->fetchAll(PDO::FETCH_ASSOC);
 
 
 /* RECENSIONI STRUTTURA */
-$sqlRecensioni = "SELECT R.Titolo, R.Commento, R.NumStelle, U.Nome, U.Cognome
-                  FROM Recensioni R
-                  INNER JOIN Utenti U ON R.IdUtente = U.IdUtente
-                  WHERE R.CodStruttura = :codStruttura
-                  ORDER BY R.IdRecensione DESC";
+$sqlRecensioni = "SELECT R.Titolo, R.Commento, R.NumStelle, U.Nome, U.Cognome FROM Recensioni R
+                  INNER JOIN Utenti U ON R.IdUtente = U.IdUtente WHERE R.CodStruttura = :codStruttura ORDER BY R.IdRecensione DESC";
 
 $stmtRecensioni = $conn->prepare($sqlRecensioni);
 $stmtRecensioni->bindParam(':codStruttura', $codStruttura);

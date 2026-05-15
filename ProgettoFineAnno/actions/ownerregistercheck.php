@@ -16,10 +16,7 @@ $sedeLegale = trim($_POST['sedeLegale'] ?? '');
 $partitaIVA = trim($_POST['partitaIVA'] ?? '');
 $telefono = trim($_POST['telefono'] ?? '');
 
-if (
-    $email === '' || $password === '' || $confirmPassword === '' ||
-    $nomeAttivita === '' || $sedeLegale === '' || $partitaIVA === '' || $telefono === ''
-) {
+if ($email === '' || $password === '' || $confirmPassword === '' || $nomeAttivita === '' || $sedeLegale === '' || $partitaIVA === '' || $telefono === '') {
     header("Location: ../ownerpages/ownerlogin.php?err=1");
     exit;
 }

@@ -65,7 +65,7 @@
     </div>
 </div>
 
-<!-- Script per animare il pannello login e registrazione, per la transizione animata -->
+<!-- Script per transizione animata -->
 <script>
 const authContainer = document.getElementById("authContainer");
 const showRegister = document.getElementById("showRegister");
@@ -100,7 +100,7 @@ showRegister.addEventListener("click", () => switchMode(true));
 showLogin.addEventListener("click", () => switchMode(false));
 </script>
 
-<!-- Script che controlla che le due password coincidano, se non coincidono mostra alert con scritto che non corrispondono -->
+<!-- Script che controlla che le due password coincidono, se non coincidono mostra alert con scritto che non corrispondono -->
 <script>
 const registerForm = document.getElementById("registerForm");
 const registerPassword = document.getElementById("registerPassword");

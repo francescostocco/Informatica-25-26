@@ -22,26 +22,26 @@ if ($codStruttura === '') {
 try {
     $conn->beginTransaction();
 
-    /* Recupero foto per eliminarle anche dalla cartella */
+    /* Prendo foto per eliminarle anche dalla cartella */
     $sqlFotoSelect = "SELECT UrlFoto FROM FotoStrutture WHERE CodStruttura = :codStruttura";
     $stmtFotoSelect = $conn->prepare($sqlFotoSelect);
     $stmtFotoSelect->bindParam(':codStruttura', $codStruttura);
     $stmtFotoSelect->execute();
     $foto = $stmtFotoSelect->fetchAll(PDO::FETCH_ASSOC);
 
-    /* Elimina recensioni */
+    /* Elimino recensioni di quella struttura */
     $sql = "DELETE FROM Recensioni WHERE CodStruttura = :codStruttura";
     $stmt = $conn->prepare($sql);
     $stmt->bindParam(':codStruttura', $codStruttura);
     $stmt->execute();
 
-    /* Elimina foto dal database */
+    /* Elimino foto dal database */
     $sql = "DELETE FROM FotoStrutture WHERE CodStruttura = :codStruttura";
     $stmt = $conn->prepare($sql);
     $stmt->bindParam(':codStruttura', $codStruttura);
     $stmt->execute();
 
-    /* Elimina dati specifici */
+    /* Elimino i dati specifici della struttura */
     $sql = "DELETE FROM Alberghi WHERE CodStruttura = :codStruttura";
     $stmt = $conn->prepare($sql);
     $stmt->bindParam(':codStruttura', $codStruttura);
@@ -57,7 +57,7 @@ try {
     $stmt->bindParam(':codStruttura', $codStruttura);
     $stmt->execute();
 
-    /* Elimina struttura principale */
+    /* Per concludere elimino effettivamente la struttura dalla tabella */
     $sql = "DELETE FROM Strutture WHERE CodStruttura = :codStruttura";
     $stmt = $conn->prepare($sql);
     $stmt->bindParam(':codStruttura', $codStruttura);

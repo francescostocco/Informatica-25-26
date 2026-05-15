@@ -10,17 +10,9 @@ if (empty($_SESSION['ruolo']) || $_SESSION['ruolo'] !== 'admin') {
 
 require __DIR__ . '/../include/connect.php';
 
-$sql = "SELECT 
-            R.IdRecensione,
-            R.Titolo,
-            R.Commento,
-            R.NumStelle,
-            U.Email,
-            S.NomeStruttura
-        FROM Recensioni R
+$sql = "SELECT R.IdRecensione, R.Titolo, R.Commento, R.NumStelle, U.Email, S.NomeStruttura FROM Recensioni R
         INNER JOIN Utenti U ON R.IdUtente = U.IdUtente
-        INNER JOIN Strutture S ON R.CodStruttura = S.CodStruttura
-        ORDER BY R.IdRecensione DESC";
+        INNER JOIN Strutture S ON R.CodStruttura = S.CodStruttura ORDER BY R.IdRecensione DESC";
 
 $stmt = $conn->prepare($sql);
 $stmt->execute();

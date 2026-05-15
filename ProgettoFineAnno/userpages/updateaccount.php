@@ -21,11 +21,7 @@ if ($nome === '' || $cognome === '' || $dataNascita === '') {
     exit;
 }
 
-$sql = "UPDATE Utenti
-        SET Nome = :nome,
-            Cognome = :cognome,
-            DataNascita = :dataNascita
-        WHERE IdUtente = :idUtente";
+$sql = "UPDATE Utenti SET Nome = :nome, Cognome = :cognome, DataNascita = :dataNascita WHERE IdUtente = :idUtente";
 
 $stmt = $conn->prepare($sql);
 $stmt->bindParam(':nome', $nome);

@@ -21,11 +21,8 @@ if ($codStruttura === '') {
     exit;
 }
 
-/* Recupera proprietario */
-$sqlProp = "SELECT IdProprietario
-            FROM Proprietari
-            WHERE IdUtente = :idUtente
-            LIMIT 1";
+/* Prendo Id Proprietario*/
+$sqlProp = "SELECT IdProprietario FROM Proprietari WHERE IdUtente = :idUtente LIMIT 1";
 
 $stmtProp = $conn->prepare($sqlProp);
 $stmtProp->bindParam(':idUtente', $_SESSION['IdUtente']);
@@ -40,12 +37,8 @@ if (!$proprietario) {
 
 $idProprietario = $proprietario['IdProprietario'];
 
-/* Controlla che la struttura appartenga al proprietario */
-$check = $conn->prepare("SELECT CodStruttura
-                         FROM Strutture
-                         WHERE CodStruttura = :codStruttura
-                         AND IdProprietario = :idProprietario
-                         LIMIT 1");
+/* Controllo che struttura corrisponda ed appartiene al proprietario */
+$check = $conn->prepare("SELECT CodStruttura FROM Strutture WHERE CodStruttura = :codStruttura AND IdProprietario = :idProprietario LIMIT 1");
 
 $check->bindParam(':codStruttura', $codStruttura);
 $check->bindParam(':idProprietario', $idProprietario);
@@ -56,7 +49,7 @@ if (!$check->fetch()) {
     exit;
 }
 
-/* Elimina dati collegati */
+/* Elimino dati collegati a quella struttura */
 
 $tables = [
     "FotoStrutture",
@@ -73,9 +66,8 @@ foreach ($tables as $table) {
     $stmtDelete->execute();
 }
 
-/* Elimina struttura */
-$sqlStruttura = "DELETE FROM Strutture
-                 WHERE CodStruttura = :codStruttura";
+/*Elimino definitivamente la struttura dalla tabella */
+$sqlStruttura = "DELETE FROM Strutture WHERE CodStruttura = :codStruttura";
 
 $stmtStruttura = $conn->prepare($sqlStruttura);
 $stmtStruttura->bindParam(':codStruttura', $codStruttura);

@@ -10,11 +10,9 @@ require __DIR__ . '/../include/connect.php';
 $email = trim($_POST['email'] ?? '');
 $passwordInserita = $_POST['password'] ?? '';
 
-$sql = "SELECT U.IdUtente, U.Nome, U.Cognome, U.PasswordUtente
-        FROM Utenti U
-        INNER JOIN Proprietari P ON U.IdUtente = P.IdUtente
-        WHERE U.Email = :email
-        LIMIT 1";
+/**Prendo i dati dell'utente e verifico che sia proprietario */
+$sql = "SELECT U.IdUtente, U.Nome, U.Cognome, U.PasswordUtente FROM Utenti U
+        INNER JOIN Proprietari P ON U.IdUtente = P.IdUtente WHERE U.Email = :email LIMIT 1";
 
 $stmt = $conn->prepare($sql);
 $stmt->bindParam(':email', $email);

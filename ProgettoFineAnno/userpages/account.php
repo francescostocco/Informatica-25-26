@@ -13,10 +13,7 @@ require __DIR__ . '/../include/connect.php';
 $idUtente = $_SESSION['IdUtente'];
 
 /* DATI UTENTE */
-$sql = "SELECT Nome, Cognome, DataNascita, Email
-        FROM Utenti
-        WHERE IdUtente = :idUtente
-        LIMIT 1";
+$sql = "SELECT Nome, Cognome, DataNascita, Email FROM Utenti WHERE IdUtente = :idUtente LIMIT 1";
 
 $stmt = $conn->prepare($sql);
 $stmt->bindParam(':idUtente', $idUtente);
@@ -27,18 +24,8 @@ $utente = $stmt->fetch(PDO::FETCH_ASSOC);
 $profiloCompleto = !empty($utente['Nome']) && !empty($utente['Cognome']) && !empty($utente['DataNascita']);
 
 /* RECENSIONI SCRITTE DALL'UTENTE */
-$sqlRecensioni = "SELECT 
-                    R.IdRecensione,
-                    R.Titolo,
-                    R.Commento,
-                    R.NumStelle,
-                    S.CodStruttura,
-                    S.NomeStruttura,
-                    S.`Città`
-                  FROM Recensioni R
-                  INNER JOIN Strutture S ON R.CodStruttura = S.CodStruttura
-                  WHERE R.IdUtente = :idUtente
-                  ORDER BY R.IdRecensione DESC";
+$sqlRecensioni = "SELECT R.IdRecensione, R.Titolo, R.Commento, R.NumStelle, S.CodStruttura, S.NomeStruttura, S.`Città`FROM Recensioni R
+                  INNER JOIN Strutture S ON R.CodStruttura = S.CodStruttura WHERE R.IdUtente = :idUtente ORDER BY R.IdRecensione DESC";
 
 $stmtRecensioni = $conn->prepare($sqlRecensioni);
 $stmtRecensioni->bindParam(':idUtente', $idUtente);

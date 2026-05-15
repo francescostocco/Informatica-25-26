@@ -10,10 +10,7 @@ require '../include/connect.php';
 $email = $_POST['email'] ?? '';
 $passwordInserita = $_POST['password'] ?? '';
 
-$sql = "SELECT IdUtente, Nome, Cognome, PasswordUtente
-        FROM Utenti
-        WHERE Email = :email
-        LIMIT 1";
+$sql = "SELECT IdUtente, Nome, Cognome, PasswordUtente FROM Utenti WHERE Email = :email LIMIT 1";
 
 $stmt = $conn->prepare($sql);
 $stmt->bindParam(':email', $email);
@@ -36,7 +33,7 @@ $_SESSION['Nome'] = $utente['Nome'];
 $_SESSION['Cognome'] = $utente['Cognome'];
 $_SESSION['loggato'] = true;
 
-/* Controllo se l'utente è amministratore */
+/* Controllo se l'utente è anche amministratore */
 $checkAdmin = $conn->prepare("SELECT IdUtente FROM Amministratori WHERE IdUtente = :idUtente LIMIT 1");
 $checkAdmin->bindParam(':idUtente', $utente['IdUtente']);
 $checkAdmin->execute();
@@ -47,7 +44,7 @@ if ($checkAdmin->fetch()) {
     exit;
 }
 
-/* Se non è admin entra come utente normale */
+/* Se chi fa login non è amministratore allora entra come utente normale */
 $_SESSION['ruolo'] = 'utente';
 
 header("Location: ../index.php");

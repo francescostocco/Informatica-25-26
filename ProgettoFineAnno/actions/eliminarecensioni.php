@@ -19,8 +19,7 @@ if ($idRecensione === '') {
     exit;
 }
 
-$sql = "DELETE FROM Recensioni
-        WHERE IdRecensione = :idRecensione";
+$sql = "DELETE FROM Recensioni WHERE IdRecensione = :idRecensione";
 
 $stmt = $conn->prepare($sql);
 $stmt->bindParam(':idRecensione', $idRecensione);

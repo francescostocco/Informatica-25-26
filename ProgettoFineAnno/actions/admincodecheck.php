@@ -20,11 +20,7 @@ if ($codiceAccesso === '') {
     exit;
 }
 
-$sql = "SELECT IdUtente
-        FROM Amministratori
-        WHERE IdUtente = :idUtente
-        AND CodiceAccesso = :codiceAccesso
-        LIMIT 1";
+$sql = "SELECT IdUtente FROM Amministratori WHERE IdUtente = :idUtente AND CodiceAccesso = :codiceAccesso LIMIT 1";
 
 $stmt = $conn->prepare($sql);
 $stmt->bindParam(':idUtente', $idUtente);

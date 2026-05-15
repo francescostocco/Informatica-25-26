@@ -16,9 +16,7 @@ if (
 
 require __DIR__ . '/../include/connect.php';
 
-/* =========================
-   Dati Form Principali
-========================= */
+/**Dati principali del form per inserire la struttura */
 $nomeStruttura = trim($_POST['nomeStruttura'] ?? '');
 $descrizione = trim($_POST['descrizione'] ?? '');
 $indirizzo = trim($_POST['indirizzo'] ?? '');
@@ -28,17 +26,8 @@ $tipologia = trim($_POST['tipologia'] ?? '');
 
 $idUtente = $_SESSION['IdUtente'];
 
-/* =========================
-   Controllo che non sia vuoto l'inserimento dell'utente
-========================= */
-if (
-    $nomeStruttura === '' ||
-    $descrizione === '' ||
-    $indirizzo === '' ||
-    $citta === '' ||
-    $tipoLocalita === '' ||
-    $tipologia === ''
-) {
+/**Verifica che inserimento utente non sia vuoto */
+if ($nomeStruttura === '' || $descrizione === '' || $indirizzo === '' || $citta === '' || $tipoLocalita === '' || $tipologia === '') {
     header("Location: ../ownerpages/addstruttura.php?err=1");
     exit;
 }
@@ -46,13 +35,9 @@ if (
 try {
     $conn->beginTransaction();
 
-    /* =========================
-       1. Recupero IdProprietario 
-    ========================= */
-    $sqlProp = "SELECT IdProprietario
-                FROM Proprietari
-                WHERE IdUtente = :idUtente
-                LIMIT 1";
+/*Prendo con la query l'id del Proprietario*/ 
+    $sqlProp = "SELECT IdProprietario FROM Proprietari
+                WHERE IdUtente = :idUtente LIMIT 1";
 
     $stmtProp = $conn->prepare($sqlProp);
     $stmtProp->bindParam(':idUtente', $idUtente);
@@ -68,13 +53,8 @@ try {
 
     $idProprietario = $proprietario['IdProprietario'];
 
-    /* =========================
-       2. Gestione del parametro TipoLocalità, se non esiste viene creata
-    ========================= */
-    $sqlTipo = "SELECT `IdTipoLocalità`
-                FROM `TipoLocalità`
-                WHERE `TipoLocalità` = :tipoLocalita
-                LIMIT 1";
+/*TipoLocalità, se non esiste la crea direttamente*/ 
+    $sqlTipo = "SELECT `IdTipoLocalità` FROM `TipoLocalità`WHERE `TipoLocalità` = :tipoLocalita LIMIT 1";
 
     $stmtTipo = $conn->prepare($sqlTipo);
     $stmtTipo->bindParam(':tipoLocalita', $tipoLocalita);
@@ -85,8 +65,7 @@ try {
     if ($tipo) {
         $idTipoLocalita = $tipo['IdTipoLocalità'];
     } else {
-        $sqlInsertTipo = "INSERT INTO `TipoLocalità` (`TipoLocalità`)
-                          VALUES (:tipoLocalita)";
+        $sqlInsertTipo = "INSERT INTO `TipoLocalità` (`TipoLocalità`) VALUES (:tipoLocalita)";
         $stmtInsertTipo = $conn->prepare($sqlInsertTipo);
         $stmtInsertTipo->bindParam(':tipoLocalita', $tipoLocalita);
         $stmtInsertTipo->execute();
@@ -94,13 +73,9 @@ try {
         $idTipoLocalita = $conn->lastInsertId();
     }
 
-    /* =========================
-       3. Inserimento struttura
-    ========================= */
-    $sqlStruttura = "INSERT INTO Strutture
-                    (NomeStruttura, Descrizione, Indirizzo, `Città`, `IdTipoLocalità`, IdProprietario)
-                    VALUES
-                    (:nomeStruttura, :descrizione, :indirizzo, :citta, :idTipoLocalita, :idProprietario)";
+/*Inserimento struttura nella tabella strutture */
+    $sqlStruttura = "INSERT INTO Strutture (NomeStruttura, Descrizione, Indirizzo, `Città`, `IdTipoLocalità`, IdProprietario)
+                    VALUES (:nomeStruttura, :descrizione, :indirizzo, :citta, :idTipoLocalita, :idProprietario)";
 
     $stmtStruttura = $conn->prepare($sqlStruttura);
     $stmtStruttura->bindParam(':nomeStruttura', $nomeStruttura);
@@ -113,18 +88,14 @@ try {
 
     $codStruttura = $conn->lastInsertId();
 
-    /* =========================
-       4. Inserimento della struttura nella tabella specifica (Alberghi, BnB, CaseVacanze)
-    ========================= */
+/*Struttura inserita nella tabella specifica (Hotel, BnB, Case vacanze)*/ 
     if ($tipologia === 'albergo') {
         $catena = trim($_POST['catena'] ?? '');
         $numeroCamereHotel = $_POST['numeroCamereHotel'] ?? null;
         $numeroStelle = $_POST['numeroStelle'] ?? null;
 
-        $sqlAlbergo = "INSERT INTO Alberghi
-                      (CodStruttura, Catena, NumeroCamere, NumeroStelle)
-                      VALUES
-                      (:codStruttura, :catena, :numeroCamere, :numeroStelle)";
+        $sqlAlbergo = "INSERT INTO Alberghi (CodStruttura, Catena, NumeroCamere, NumeroStelle)
+                      VALUES (:codStruttura, :catena, :numeroCamere, :numeroStelle)";
 
         $stmtAlbergo = $conn->prepare($sqlAlbergo);
         $stmtAlbergo->bindParam(':codStruttura', $codStruttura);
@@ -139,10 +110,8 @@ try {
         $numeroCamereBnb = $_POST['numeroCamereBnb'] ?? null;
         $colazioneInclusa = $_POST['colazioneInclusa'] ?? null;
 
-        $sqlBnb = "INSERT INTO BnB
-                  (CodStruttura, Categoria, NumeroCamere, ColazioneInclusa)
-                  VALUES
-                  (:codStruttura, :categoria, :numeroCamere, :colazioneInclusa)";
+        $sqlBnb = "INSERT INTO BnB (CodStruttura, Categoria, NumeroCamere, ColazioneInclusa)
+                  VALUES (:codStruttura, :categoria, :numeroCamere, :colazioneInclusa)";
 
         $stmtBnb = $conn->prepare($sqlBnb);
         $stmtBnb->bindParam(':codStruttura', $codStruttura);
@@ -158,10 +127,8 @@ try {
         $numBagni = $_POST['numBagni'] ?? null;
         $animaliAmmessi = $_POST['animaliAmmessi'] ?? null;
 
-        $sqlCasa = "INSERT INTO CaseVacanze
-                   (CodStruttura, NumPostiLetto, Superficie, NumBagni, AnimaliAmmessi)
-                   VALUES
-                   (:codStruttura, :numPostiLetto, :superficie, :numBagni, :animaliAmmessi)";
+        $sqlCasa = "INSERT INTO CaseVacanze (CodStruttura, NumPostiLetto, Superficie, NumBagni, AnimaliAmmessi)
+                   VALUES (:codStruttura, :numPostiLetto, :superficie, :numBagni, :animaliAmmessi)";
 
         $stmtCasa = $conn->prepare($sqlCasa);
         $stmtCasa->bindParam(':codStruttura', $codStruttura);
@@ -178,9 +145,7 @@ try {
         exit;
     }
 
-    /* =========================
-       5. Gestione caricamento foto
-    ========================= */
+/*Caricamento foto*/ 
     if (!empty($_FILES['foto']['name'][0])) {
         $uploadDir = __DIR__ . '/../uploads/strutture/';
 

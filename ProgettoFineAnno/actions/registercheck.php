@@ -23,7 +23,7 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     exit;
 }
 
-// Controllo password uguali
+// Controllo se le password sono uguali
 if ($password !== $confirmPassword) {
     header("Location: login.php?err=3");
     exit;
